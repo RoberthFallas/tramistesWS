@@ -1,0 +1,15 @@
+org\una\tramites\repositories\IDepartamentoRepository.class
+org\una\tramites\dto\UsuarioDTO.class
+org\una\tramites\utils\MapperUtils.class
+org\una\tramites\services\IDepartamentoService.class
+org\una\tramites\services\IUsuarioService.class
+org\una\tramites\controllers\UsuarioController.class
+org\una\tramites\dto\DepartamentoDTO.class
+org\una\tramites\services\DepartamentoServiceImplementation.class
+org\una\tramites\controllers\DepartamentoController.class
+org\una\tramites\entities\Usuario.class
+org\una\tramites\entities\Departamento.class
+org\una\tramites\TramitesApplication.class
+org\una\tramites\services\UsuarioServiceImplementation.class
+org\una\tramites\SwaggerConfiguration.class
+org\una\tramites\repositories\IUsuarioRepository.class
