@@ -25,7 +25,9 @@ public interface IUsuarioService {
     public Optional<List<Usuario>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
 
     public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id);
-
+    
+    public Optional<Usuario> findJefeByDepartamento(Long id);
+            
     public Usuario create(Usuario usuario);
 
     public Optional<Usuario> update(Usuario usuario, Long id);
@@ -35,5 +37,6 @@ public interface IUsuarioService {
     public void deleteAll();
 
     public Optional<Usuario> login(Usuario usuario);
+  
 
 }

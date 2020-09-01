@@ -83,5 +83,13 @@ public class UsuarioServiceImplementation implements IUsuarioService {
         }
         return Optional.empty();
     }
+       
+//    public Optional<Usuario> findJefeDepartamentoId(Long id){
+//         return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
+//    }
 
+    @Override
+    public Optional<Usuario> findJefeByDepartamento(Long id) {
+        return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
+    }
 }
