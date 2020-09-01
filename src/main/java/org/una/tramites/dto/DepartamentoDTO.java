@@ -6,9 +6,12 @@
 package org.una.tramites.dto;
 
 import java.util.Date;
+import java.util.List;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -26,5 +29,10 @@ public class DepartamentoDTO {
     private Date fechaRegistro;
     private Date fechaModificacion;
     private boolean estado;
+    @Setter(AccessLevel.NONE)
+    private List<UsuarioDTO> usuarios;
     
+    public void adherirUsuarios(List<UsuarioDTO> usuarios){
+        this.usuarios.addAll(usuarios);
+    }
 }

@@ -36,5 +36,4 @@ public class MapperUtils {
                 .map(entity -> DtoFromEntity(entity, dtoClass))
                 .collect(Collectors.toList());
     }
-
 }
