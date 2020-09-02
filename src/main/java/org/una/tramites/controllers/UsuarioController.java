@@ -144,17 +144,14 @@ public class UsuarioController {
             if (usuarioUpdated.isPresent()) {
                 UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioUpdated.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
-
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    
     @GetMapping("/findByDepartamentoId/{id}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de Usuarios que pertenezcan al departamento especificado", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
@@ -171,27 +168,23 @@ public class UsuarioController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/ findJefeByDepartamento/{ids}")
+
+    @GetMapping("/findJefeByDepartamento/{id}")
     @ResponseBody
-    @ApiOperation(value = "Obtiene a jefe",response=UsuarioDTO.class,tags = "Usuarios")
-    public ResponseEntity<?>findJefeByDepartamento(@PathVariable(value = "id") Long id)
-    {
-          try {
+    @ApiOperation(value = "Obtiene a jefe del departamento especificado", response = UsuarioDTO.class, tags = "Usuarios")
+    public ResponseEntity<?> findJefeByDepartamento(@PathVariable(value = "id") Long id) {
+        try {
             Optional<Usuario> usuarioUpdated = usuarioService.findJefeByDepartamento(id);
             if (usuarioUpdated.isPresent()) {
                 UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioUpdated.get(), UsuarioDTO.class);
                 return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
-
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-            
-    
 
 //        @DeleteMapping("/{id}")
 //        public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
