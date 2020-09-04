@@ -22,7 +22,9 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     public List<Usuario> findByCedulaContaining(String cedula);
 
     public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
-
+    
+    public Usuario findByCedula(String Cedula);
+    
     @Query("select u from Usuario u where UPPER(u.nombreCompleto) like CONCAT('%',UPPER(:nombreCompleto),'%')")  //OJO con slash extra -_-
     public Usuario findNombreCompletoWithLikeSQL(@Param("nombreCompleto") String nombreCompleto);
 

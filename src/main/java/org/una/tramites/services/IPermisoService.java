@@ -29,5 +29,9 @@ public interface IPermisoService {
     public void delete(Long id);
 
     public void deleteAll();
+    
+    public Long countByEstado(boolean estado); 
+    
+    public Optional<Permiso> findByCodigo(String codigoPermiso);
 
 }

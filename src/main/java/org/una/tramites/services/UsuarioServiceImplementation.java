@@ -92,4 +92,9 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     public Optional<Usuario> findJefeByDepartamento(Long id) {
         return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
     }
+
+    @Override
+    public Optional<Usuario> findByCedula(String cedula) {
+       return Optional.ofNullable(usuarioRepository.findByCedula(cedula));
+    }
 }

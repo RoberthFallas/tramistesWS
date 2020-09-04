@@ -68,4 +68,15 @@ public class PermisoServiceImplementation implements IPermisoService {
       permisoRepository.deleteAll();
     }
 
+    @Override
+    public Long countByEstado(boolean estado) {
+    return permisoRepository.countByEstado(estado);
+    }
+
+    @Override
+     @Transactional(readOnly = true)
+    public Optional<Permiso> findByCodigo(String codigoPermiso) {
+        return Optional.ofNullable(permisoRepository.findByCodigo(codigoPermiso));
+    }
+
 }

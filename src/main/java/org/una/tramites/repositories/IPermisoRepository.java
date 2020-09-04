@@ -18,4 +18,6 @@ import org.una.tramites.entities.Permiso;
 public interface IPermisoRepository extends JpaRepository<Permiso, Long> {
       public List<Permiso> findByEstado(boolean estado);
       List<Permiso> findByFechaRegistroBetween(Date startDate, Date endDate);
+      public Long countByEstado(boolean estado);
+      public Permiso  findByCodigo(String codigo);
 }
