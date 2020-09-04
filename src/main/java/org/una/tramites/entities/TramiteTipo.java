@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,33 +29,38 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
+
 /**
  *
- * @author Roberth
+ * @author LordLalo
  */
 @Entity
-@Table(name = "departamentos")
+@Table(name = "tramites_tipos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Departamento implements Serializable {
-
+public class TramiteTipo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    @Setter(AccessLevel.NONE)
+    private String descripcion;
+    @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
+    @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
+    @Column(name = "fecha_modificacion")
     @Setter(AccessLevel.NONE)
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
+    @Column
     private boolean estado;
+    @ManyToOne
+    @JoinColumn(name = "departamentos_id")
+    private Departamento departamento;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<TramiteTipo> tramites_Tipos = new ArrayList<>();
-
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "tramite_tipos", fetch = FetchType.LAZY)
+    private List<Variacion> variaciones = new ArrayList<>();
 }
