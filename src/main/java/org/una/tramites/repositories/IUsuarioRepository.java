@@ -6,6 +6,8 @@
 package org.una.tramites.repositories;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +25,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
     public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
     
-    public Usuario findByCedula(String Cedula);
+    public Optional<Usuario> findByCedula(String Cedula);
     
     @Query("select u from Usuario u where UPPER(u.nombreCompleto) like CONCAT('%',UPPER(:nombreCompleto),'%')")  //OJO con slash extra -_-
     public Usuario findNombreCompletoWithLikeSQL(@Param("nombreCompleto") String nombreCompleto);
