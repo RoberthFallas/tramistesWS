@@ -5,14 +5,10 @@
  */
 package org.una.tramites.dto;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -23,15 +19,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class VariacionDTO {
+public class AuthenticationResponse {
 
-    private Long id;
-    private String descripcion;
-    private int grupo;
-    private Date fechaRegistro;
-    private boolean estado;
-    @Setter(AccessLevel.NONE)
-    private TramiteTipoDTO tramite_tipo;
+    private String jwt;
+    private UsuarioDTO usuario;
+    private List<PermisoOtorgadoDTO> permisos;
 
-    private List<RequisitoDTO> requisitoDTOs = new ArrayList<>();
 }

@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,15 +18,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.repositories.IUsuarioRepository;
 import org.una.tramites.utils.MapperUtils;
- @Service
-public class UsuarioServiceImplementation implements  UserDetailsService, IUsuarioService  {
+import org.una.tramites.SecurityConfiguration;
+import org.una.tramites.jwt.JwtProvider;
+
+
+@Service
+public class UsuarioServiceImplementation implements UserDetailsService, IUsuarioService {
+
     @Autowired
     private IUsuarioRepository usuarioRepository;
-
+      @Autowired
+    private JwtProvider jwtProvider;
+      @Autowired
+    private AuthenticationManager authenticationManager;
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Usuario>> findAll() {
@@ -49,14 +63,14 @@ public class UsuarioServiceImplementation implements  UserDetailsService, IUsuar
     @Override
     @Transactional
     public Usuario create(Usuario usuario) {
-          encriptarPassword(usuario);
+        encriptarPassword(usuario);
         return usuarioRepository.save(usuario);
     }
 
     @Override
     @Transactional
     public Optional<Usuario> update(Usuario usuario, Long id) {
-          encriptarPassword(usuario);
+        encriptarPassword(usuario);
         if (usuarioRepository.findById(id).isPresent()) {
             return Optional.ofNullable(usuarioRepository.save(usuario));
         } else {
@@ -91,11 +105,10 @@ public class UsuarioServiceImplementation implements  UserDetailsService, IUsuar
         }
         return Optional.empty();
     }
-       
+
 //    public Optional<Usuario> findJefeDepartamentoId(Long id){
 //         return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
 //    }
-
     @Override
     public Optional<Usuario> findJefeByDepartamento(Long id) {
         return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
@@ -103,11 +116,10 @@ public class UsuarioServiceImplementation implements  UserDetailsService, IUsuar
 
     @Override
     public Optional<Usuario> findByCedula(String cedula) {
-       return usuarioRepository.findByCedula(cedula);
+        return usuarioRepository.findByCedula(cedula);
     }
-  
 
-@Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
         if (usuarioBuscado.isPresent()) {
@@ -122,17 +134,23 @@ public class UsuarioServiceImplementation implements  UserDetailsService, IUsuar
 
     }
 
-   
-   @Autowired
-   private BCryptPasswordEncoder bCryptPasswordEncoder;
-  private void encriptarPassword(Usuario usuario) {
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private void encriptarPassword(Usuario usuario) {
         String password = usuario.getPasswordEncriptado();
         if (!password.isBlank()) {
             usuario.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }
     } // TODO: Piense donde se debe llamar esta función
 
- 
+     @Override
+    public String login(AuthenticationRequest authenticationRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtProvider.generateToken(authenticationRequest);
+    }
 
+    
 
 }

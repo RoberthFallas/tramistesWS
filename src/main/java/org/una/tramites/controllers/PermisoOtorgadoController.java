@@ -1,10 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.una.tramites.controllers;
 
+package org.una.tramites.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.Date;
@@ -37,9 +32,7 @@ import org.una.tramites.utils.MapperUtils;
 @RequestMapping("/permisoOtorgado")
 @Api(tags = {"PermisoOtorgado"})
 public class PermisoOtorgadoController {
-    @Autowired
-    private IPermisoOtorgadoService iPermisoOtorgadoService;
-   
+    
    @Autowired
     private IPermisoOtorgadoService permisoOtorgadoService;
 
@@ -59,7 +52,7 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/permisosUsuario")
+    @GetMapping("/estados/{usuarioId}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de los estados", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "PermisoOtorgado")
     public ResponseEntity<?> findByUsuarioId(@PathVariable(value = "usuarioId") Long usuarioId) {
@@ -76,7 +69,7 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/permisosOtorgadoid")
+    @GetMapping("/permisosOtorgadoid/{permisoId}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de los permios otorgados", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "PermisoOtorgado")
     public ResponseEntity<?> findByPermisoId(@PathVariable(value = "permisoId") Long permisoId) {
@@ -93,7 +86,7 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/findByUsuarioIdAndEstado")
+    @GetMapping("/findByUsuarioIdAndEstado/{usuarioId}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de permisos ortogados mediante estado y usuario", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "PermisoOtorgado")
     public ResponseEntity<?> findByUsuarioIdAndEstado(@PathVariable(value = "usuarioId") Long usuarioId, @PathVariable(value = "estado") boolean estado) {
@@ -110,7 +103,7 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @PutMapping("/findByPermisoIdAndEstado")
+    @PutMapping("/findByPermisoIdAndEstado/{permisoId}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de permisos ortogados mediante estado y usuario", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "PermisoOtorgado")
     public ResponseEntity<?> findByPermisoIdAndEstado(@PathVariable(value = "permisoId") Long permisoId, @PathVariable(value = "estado") boolean estado) {
@@ -126,7 +119,7 @@ public class PermisoOtorgadoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     @GetMapping("/RangoFecha")
+     @GetMapping("/RangoFecha/{Date}/{endDate}")
     @ResponseBody
     @ApiOperation(value = "Obtiene un rango de fechas", response = PermisoOtorgadoDTO.class, responseContainer = "List", tags = "PermisoOtorgado")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Date") Date strDate, @PathVariable(value = "endDate") Date endDate) {
@@ -143,7 +136,7 @@ public class PermisoOtorgadoController {
         }
     }
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/crear")
+    @PutMapping("/crear")
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody PermisoOtorgado permisoOtorgado) {
         try {
@@ -155,7 +148,7 @@ public class PermisoOtorgadoController {
         }
     }
 
-    @GetMapping("/actualizar")
+    @GetMapping("/actualizar/{id}")
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody PermisoOtorgado permisoOtorgadoModified) {
         try {

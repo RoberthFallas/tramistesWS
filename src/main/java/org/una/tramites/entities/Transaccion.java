@@ -40,12 +40,13 @@ public class Transaccion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
-    @Column
+    @Column(name="objeto",length=50)
     private String objeto;
-    @Column
+    
+    @Column(name = "informacion")
     private String informacion;
     
     @ManyToOne

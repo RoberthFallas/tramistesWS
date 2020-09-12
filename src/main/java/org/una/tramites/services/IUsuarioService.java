@@ -7,6 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 
@@ -39,5 +40,8 @@ public interface IUsuarioService {
     public Optional<Usuario> login(Usuario usuario);
     
     public Optional<Usuario> findByCedula(String cedula);
+    
+    public String login(AuthenticationRequest authenticationRequest);
+ 
 
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
@@ -14,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +34,7 @@ public class PermisoController {
     private IPermisoService permisoService;
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un permiso de acuerdo al id", response = PermisoDTO.class, tags = "Permisos")
+    @ApiOperation(value = "Obtiene a un usuario por medio de su Id de base de datos", response = PermisoDTO.class, tags = "Permisos")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             Optional<Permiso> permisoFound = permisoService.findById(id);
@@ -52,10 +49,10 @@ public class PermisoController {
         }
     }
 
-    @GetMapping("/estado")
+    @GetMapping("/findByEstado/{estado}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de los estados", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    public ResponseEntity<?> findByEstado(@PathVariable(value = "Estado") boolean estado) {
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
         try {
             Optional<List<Permiso>> result = permisoService.findByEstado(estado);
             if (result.isPresent()) {
@@ -69,7 +66,7 @@ public class PermisoController {
         }
     }
 
-    @GetMapping("/findByFechaRegistroBetween")
+    @GetMapping("/findByFechaRegistroBetween/{Date}/{endDate}")
     @ResponseBody
     @ApiOperation(value = "Obtiene un rango de fechas", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
     public ResponseEntity<?> findByFechaRegistroBetween(@PathVariable(value = "Date") Date strDate, @PathVariable(value = "endDate") Date endDate) {
@@ -86,12 +83,26 @@ public class PermisoController {
         }
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/creat")
+    
+//    @ResponseStatus(HttpStatus.OK)
+//    @PostMapping("/")
+//    @ResponseBody
+//    public ResponseEntity<?> create(@RequestBody Permiso permiso) {
+//        try {
+//            Permiso permisoCreated = permisoService.create(permiso);
+//            PermisoDTO permisoDTO = MapperUtils.DtoFromEntity(permisoCreated, PermisoDTO.class);
+//            return new ResponseEntity<>(permisoDTO, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+       @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/")
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Permiso permiso) {
+    @ApiOperation(value = "Crea un permiso", response = PermisoDTO.class, tags = "Permisos")
+    public ResponseEntity<?> create(@RequestBody Permiso permisos) {
         try {
-            Permiso permisoCreated = permisoService.create(permiso);
+            Permiso permisoCreated = permisoService.create(permisos);
             PermisoDTO permisoDTO = MapperUtils.DtoFromEntity(permisoCreated, PermisoDTO.class);
             return new ResponseEntity<>(permisoDTO, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -99,14 +110,14 @@ public class PermisoController {
         }
     }
 
-    @PutMapping("/actualizar")
+     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Permiso permisoModified) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Permiso permiso) {
         try {
-            Optional<Permiso> permisoUpdated = permisoService.update(permisoModified, id);
-            if (permisoUpdated.isPresent()) {
-                PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoUpdated.get(), PermisoDTO.class);
-                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
+            Optional<Permiso> perUpdated = permisoService.update(permiso, id);
+            if (perUpdated.isPresent()) {
+                PermisoDTO permisoDTO = MapperUtils.DtoFromEntity(perUpdated.get(), PermisoDTO.class);
+                return new ResponseEntity<>(permisoDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -114,5 +125,30 @@ public class PermisoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+     @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        try {
+            permisoService.delete(id);
+            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    @DeleteMapping("/")
+//    public ResponseEntity<?> deleteAll() {
+//        try {
+//            permisoService.deleteAll();
+//            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            }
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        } catch (Exception ex) {
+//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
    
 }

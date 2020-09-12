@@ -52,8 +52,9 @@ public class TramiteTipo implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
     @Column(name = "fecha_modificacion")
+     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.TIMESTAMP)
+   
     private Date fechaModificacion;
     @Column
     private boolean estado;

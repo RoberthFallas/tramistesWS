@@ -5,6 +5,7 @@
  */
 package org.una.tramites.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonIgnoreProperties
 public class Usuario implements Serializable {
 
     @Id
@@ -54,13 +56,15 @@ public class Usuario implements Serializable {
     private String cedula;
     @Column
     private boolean estado;
+    
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE) 
+    
     private Date fechaRegistro;
     @Column(name = "fecha_modificacion")
-    @Setter(AccessLevel.NONE)
     @Temporal(TemporalType.TIMESTAMP)
+    @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
     @Column(name = "es_jefe")
     private boolean esJefe;

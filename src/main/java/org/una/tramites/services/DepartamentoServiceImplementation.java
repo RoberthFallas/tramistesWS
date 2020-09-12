@@ -29,4 +29,5 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
         return Optional.ofNullable(departamentoRepo.findAll());
     }
     
+    
 }

@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,6 +50,7 @@ public class PermisoOtorgado implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
+    
     @Column
     private boolean estado;
 
@@ -61,4 +64,12 @@ public class PermisoOtorgado implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado", fetch = FetchType.LAZY)
     private List<Transaccion> transacciones = new ArrayList<>();
+      @PrePersist
+    public void prePersist() {
+        estado=true;
+        fechaRegistro = new Date();
+       
+    }
+
+   
 }
