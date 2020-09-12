@@ -17,25 +17,21 @@ import lombok.ToString;
 
 /**
  *
- * @author roberth
+ * @author LordLalo
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DepartamentoDTO {
+public class VariacionDTO {
 
     private Long id;
-    private String nombre;
+    private String descripcion;
+    private int grupo;
     private Date fechaRegistro;
-    private Date fechaModificacion;
     private boolean estado;
     @Setter(AccessLevel.NONE)
-    private List<UsuarioDTO> usuarios;
-    
-    public void adherirUsuarios(List<UsuarioDTO> usuarios){
-        this.usuarios.addAll(usuarios);
-    }
-    // private List<TramiteTipoDTO> transacciones = new ArrayList<>();
-     //private List<TramiteTipoDTO> permisosOtorgados = new ArrayList<>();
+    private TramiteTipoDTO tramite_tipo;
+
+    private List<RequisitoDTO> requisitoDTOs = new ArrayList<>();
 }
