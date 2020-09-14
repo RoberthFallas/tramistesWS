@@ -5,7 +5,9 @@
  */
 package org.una.tramites.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,26 +17,21 @@ import lombok.ToString;
 
 /**
  *
- * @author Roberth
+ * @author LordLalo
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UsuarioDTO {
+public class VariacionDTO {
 
     private Long id;
-    private String nombreCompleto;
-    private String cedula;
-    private boolean estado;
+    private String descripcion;
+    private int grupo;
     private Date fechaRegistro;
-    private Date fechaModificacion;
-    private boolean esJefe;
+    private boolean estado;
     @Setter(AccessLevel.NONE)
-    private DepartamentoDTO departamento;
-    
-    public void asociarDepartamento(DepartamentoDTO depart){
-        this.departamento = depart;
-    }
-   
+    private TramiteTipoDTO tramite_tipo;
+
+    private List<RequisitoDTO> requisitoDTOs = new ArrayList<>();
 }

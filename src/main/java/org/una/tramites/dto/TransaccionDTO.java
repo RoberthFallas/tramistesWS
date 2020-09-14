@@ -15,26 +15,19 @@ import lombok.ToString;
 
 /**
  *
- * @author Roberth
+ * @author rober
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UsuarioDTO {
+public class TransaccionDTO {
 
     private Long id;
-    private String nombreCompleto;
-    private String cedula;
-    private boolean estado;
+
     private Date fechaRegistro;
-    private Date fechaModificacion;
-    private boolean esJefe;
+    private String objeto;
+    private String informacion;
     @Setter(AccessLevel.NONE)
-    private DepartamentoDTO departamento;
-    
-    public void asociarDepartamento(DepartamentoDTO depart){
-        this.departamento = depart;
-    }
-   
+    private PermisoOtorgadoDTO permisoOtorgado;
 }

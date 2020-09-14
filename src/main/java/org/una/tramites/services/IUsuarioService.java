@@ -7,6 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 
@@ -25,7 +26,9 @@ public interface IUsuarioService {
     public Optional<List<Usuario>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
 
     public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id);
-
+    
+    public Optional<Usuario> findJefeByDepartamento(Long id);
+            
     public Usuario create(Usuario usuario);
 
     public Optional<Usuario> update(Usuario usuario, Long id);
@@ -35,5 +38,10 @@ public interface IUsuarioService {
     public void deleteAll();
 
     public Optional<Usuario> login(Usuario usuario);
+    
+    public Optional<Usuario> findByCedula(String cedula);
+    
+    public String login(AuthenticationRequest authenticationRequest);
+ 
 
 }

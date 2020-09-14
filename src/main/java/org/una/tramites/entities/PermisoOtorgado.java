@@ -5,7 +5,6 @@
  */
 package org.una.tramites.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -35,50 +36,40 @@ import lombok.ToString;
  * @author Roberth
  */
 @Entity
-@Table(name = "departamentos")
+@Table(name = "permisos_otorgados")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-//@JsonIgnoreProperties
-public class Departamento implements Serializable {
+public class PermisoOtorgado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "nombre", length = 100)
-    private String nombre;
-
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-
-    @Column(name = "fecha_modificacion")
-    @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
-    private Date fechaModificacion;
+    
     @Column
     private boolean estado;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "usuarios_id")
+    private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "permisos_id")
+    private Permiso permiso;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<TramiteTipo> tramites_Tipos = new ArrayList<>();
-
-    private static final long serialVersionUID = 1L;
-    @PrePersist
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisoOtorgado", fetch = FetchType.LAZY)
+    private List<Transaccion> transacciones = new ArrayList<>();
+      @PrePersist
     public void prePersist() {
-        estado = true;
-        nombre = "ventas";
+        estado=true;
         fechaRegistro = new Date();
-        fechaModificacion = new Date();
+       
     }
 
-    @PreUpdate
-    public void preUpdate() {
-        fechaModificacion = new Date();
-    }
+   
 }

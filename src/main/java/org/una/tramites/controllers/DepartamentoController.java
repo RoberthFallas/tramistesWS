@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
@@ -28,7 +24,7 @@ import org.una.tramites.utils.MapperUtils;
  */
 @RestController
 @RequestMapping("/departamentos")
-@Api(tags = {"Usuarios"})
+@Api(tags = {"Departamentos"})
 public class DepartamentoController {
 
     @Autowired
@@ -36,7 +32,7 @@ public class DepartamentoController {
 
     @GetMapping("buscarTodo")
     @ResponseBody
-    @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = UsuarioDTO.class, responseContainer = "List", tags = "Departamentos")
     public ResponseEntity<?> findAll() {
         try {
             Optional<List<Departamento>> result = departamentoService.findAll();

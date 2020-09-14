@@ -1,15 +1,15 @@
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\services\DepartamentoServiceImplementation.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\repositories\IDepartamentoRepository.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\TramitesApplication.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\services\IUsuarioService.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\utils\MapperUtils.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\services\IDepartamentoService.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\dto\UsuarioDTO.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\repositories\IUsuarioRepository.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\dto\DepartamentoDTO.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\SwaggerConfiguration.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\entities\Departamento.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\controllers\UsuarioController.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\entities\Usuario.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\controllers\DepartamentoController.java
-C:\Users\rober\Desktop\Este semestre\Progralll\api\tramites\src\main\java\org\una\tramites\services\UsuarioServiceImplementation.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\repositories\IDepartamentoRepository.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\dto\DepartamentoDTO.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\services\IUsuarioService.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\repositories\IUsuarioRepository.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\entities\Usuario.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\dto\UsuarioDTO.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\services\IDepartamentoService.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\services\UsuarioServiceImplementation.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\SwaggerConfiguration.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\services\DepartamentoServiceImplementation.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\controllers\DepartamentoController.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\utils\MapperUtils.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\controllers\UsuarioController.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\entities\Departamento.java
+C:\Users\LordLalo\Desktop\Cursos\Progra3\tramitesWS\src\main\java\org\una\tramites\TramitesApplication.java

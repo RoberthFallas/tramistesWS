@@ -7,6 +7,7 @@ package org.una.tramites.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,50 +36,51 @@ import lombok.ToString;
  * @author Roberth
  */
 @Entity
-@Table(name = "departamentos")
+@Table(name = "permisos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-//@JsonIgnoreProperties
-public class Departamento implements Serializable {
-
-    @Id
+@JsonIgnoreProperties
+public class Permiso implements Serializable {
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 100)
-    private String nombre;
+    @Column(name = "codigo", length = 10)
+    private String codigo;
+
+    @Column(name = "descripcion", length = 100)
+    private String descripcion;
 
     @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
 
     @Column(name = "fecha_modificacion")
     @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;
-    @Column
+
+    @Column(name = "estado")
     private boolean estado;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
-    private List<TramiteTipo> tramites_Tipos = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permiso", fetch = FetchType.LAZY)
+    private List<PermisoOtorgado> permisosOtorgados = new ArrayList<>();
+    
     private static final long serialVersionUID = 1L;
+
     @PrePersist
     public void prePersist() {
-        estado = true;
-        nombre = "ventas";
+        estado=true;
         fechaRegistro = new Date();
         fechaModificacion = new Date();
     }
 
-    @PreUpdate
+      @PreUpdate
     public void preUpdate() {
         fechaModificacion = new Date();
     }
+
 }
