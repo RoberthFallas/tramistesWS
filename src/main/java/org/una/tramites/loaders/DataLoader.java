@@ -71,10 +71,19 @@ public class DataLoader implements ApplicationRunner {
             permisoOtorgadoService.create(permisoOtorgado);
 
             System.out.println("Se agrega el usuario inicial");
+            createPermisos();
         } else {
             System.out.println("Se encontro el admin");
         }
 
+    }
+    private void createPermisos() {
+        for (Permisos permiso : Permisos.values()) {
+            Permiso nuevoPermiso = new Permiso();
+            nuevoPermiso.setCodigo(permiso.getCodigo());
+            nuevoPermiso.setDescripcion(permiso.name());
+            permisoService.create(nuevoPermiso);
+        }
     }
 
 }
