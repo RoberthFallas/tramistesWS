@@ -1,4 +1,3 @@
-
 package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
@@ -51,23 +50,24 @@ public class DepartamentoController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-      @GetMapping("/{idDepartamento}")
-    @ApiOperation(value = "Obtiene un Departamento a travez de su identificador unico", response =DepartamentoDTO.class, tags = "Departamentos")
+
+    @GetMapping("/{idDepartamento}")
+    @ApiOperation(value = "Obtiene un Departamento a travez de su identificador unico", response = DepartamentoDTO.class, tags = "Departamentos")
     public ResponseEntity<?> findById(@PathVariable(value = "idDepartamento") Long id) {
         try {
-
             Optional<Departamento> departamentoFound = departamentoService.findById(id);
             if (departamentoFound.isPresent()) {
                 DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(departamentoFound.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>("NO_CONTENT",HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     @ResponseStatus(HttpStatus.OK)
+
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/create")
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody Departamento departamento) {
@@ -79,7 +79,8 @@ public class DepartamentoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             departamentoService.delete(id);
