@@ -44,11 +44,12 @@ public class Variacion implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descripcion;
-    private int grupo;
+    private boolean grupo;
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
+    
     @Column
     private boolean estado;
    @ManyToOne
