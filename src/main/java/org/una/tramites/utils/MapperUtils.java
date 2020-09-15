@@ -36,4 +36,8 @@ public class MapperUtils {
                 .map(entity -> DtoFromEntity(entity, dtoClass))
                 .collect(Collectors.toList());
     }
+    
+    public static <D, E> D entityFromDto(final E Dto, Class<D> entityClass){
+        return modelMapper.map(Dto, entityClass);
+    }
 }

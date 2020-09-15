@@ -24,12 +24,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TramiteTipoDTO {
-     private Long id;
-     private String descripcion;
-     private Date fechaRegistro;
-     private Date fechaModificacion;
-     private boolean estado;
-     @Setter(AccessLevel.NONE)
+
+    private Long id;
+    private String descripcion;
+    private Date fechaRegistro;
+    private Date fechaModificacion;
+    private boolean estado;
+    @Setter(AccessLevel.NONE)
     private DepartamentoDTO departamento;
-     private List<VariacionDTO> variacionDTOs= new ArrayList<>();
+    @Setter(AccessLevel.NONE)
+    private List<VariacionDTO> variacionDTOs = new ArrayList<>();
+    
+    
+    public void adjuntarDepartamento(DepartamentoDTO depa){
+        this.departamento = depa;
+    }
 }
