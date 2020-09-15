@@ -90,7 +90,38 @@ public class DepartamentoController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }}
+    
+     @GetMapping("/findByEstado/{estado}")
+    @ResponseBody
+    @ApiOperation(value = "Obtiene una lista de los estados", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
+    public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
+        try {
+            Optional<List<Departamento>> result = departamentoService.findByEstado(estado);
+            if (result.isPresent()) {
+                List<DepartamentoDTO> departamentoDTO= MapperUtils.DtoListFromEntityList(result.get(), DepartamentoDTO.class);
+                return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/buscar/{nombre}")
+    public ResponseEntity<?> findByDescripcion(@PathVariable(value = "nombre")String nombre){
+        try{
+            Optional<Departamento> result = departamentoService.findByNombre(nombre);
+            if (result.isPresent()) {
+                DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(result.get(), DepartamentoDTO.class);
+                return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+     
 
 }

@@ -44,6 +44,18 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
     public void delete(Long id) {
       departamentoRepo.deleteById(id);
     }
+
+ @Override
+    @Transactional(readOnly = true)
+    public Optional<List<Departamento>> findByEstado(boolean estado) {
+        return Optional.ofNullable(departamentoRepo.findByEstado(estado));
+    }
+
+     @Override
+    @Transactional(readOnly = true)
+    public Optional<Departamento> findByNombre(String nombre) {
+       return departamentoRepo.findByNombre(nombre);
+    }
     
     
 }
