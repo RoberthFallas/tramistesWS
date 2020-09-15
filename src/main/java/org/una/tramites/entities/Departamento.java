@@ -55,10 +55,11 @@ public class Departamento implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @Column(name = "fecha_modificacion")
+    @Column(name = "fecha_modificacion",updatable = false)
+     @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
+    
     @Column
     private boolean estado;
 
@@ -68,17 +69,17 @@ public class Departamento implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<TramiteTipo> tramites_Tipos = new ArrayList<>();
 
-    private static final long serialVersionUID = 1L;
-    @PrePersist
-    public void prePersist() {
-        estado = true;
-        nombre = "ventas";
-        fechaRegistro = new Date();
-        fechaModificacion = new Date();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        fechaModificacion = new Date();
-    }
+//    private static final long serialVersionUID = 1L;
+//    @PrePersist
+//    public void prePersist() {
+//        estado = true;
+//        nombre = "ventas";
+//        fechaRegistro = new Date();
+//        fechaModificacion = new Date();
+//    }
+//
+//    @PreUpdate
+//    public void preUpdate() {
+//        fechaModificacion = new Date();
+//    }
 }

@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,9 +30,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-
-
 
 /**
  *
@@ -43,6 +42,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TramiteTipo implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,16 +52,27 @@ public class TramiteTipo implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
     @Column(name = "fecha_modificacion")
-     @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
-   
+
     private Date fechaModificacion;
     @Column
     private boolean estado;
     @ManyToOne
     @JoinColumn(name = "departamentos_id")
     private Departamento departamento;
-    
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "tramite_tipos", fetch = FetchType.LAZY)
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramite_tipos", fetch = FetchType.LAZY)
     private List<Variacion> variaciones = new ArrayList<>();
+
+    @PrePersist
+    public void prepersist() {
+        fechaModificacion = new Date();
+        fechaRegistro = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        fechaModificacion = new Date();
+    }
 }

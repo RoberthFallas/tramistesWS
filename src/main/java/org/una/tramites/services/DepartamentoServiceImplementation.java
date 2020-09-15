@@ -23,10 +23,38 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
     @Autowired
     private IDepartamentoRepository departamentoRepo;
 
+    
+     @Override
+    @Transactional(readOnly = true)
+    public Optional<Departamento> findById(Long id) {
+        return departamentoRepo.findById(id);
+    }
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Departamento>> findAll() {
         return Optional.ofNullable(departamentoRepo.findAll());
+    }
+
+    @Override
+    public Departamento create(Departamento departamento) {
+       return departamentoRepo.save(departamento);
+    }
+
+    @Override
+    public void delete(Long id) {
+      departamentoRepo.deleteById(id);
+    }
+
+ @Override
+    @Transactional(readOnly = true)
+    public Optional<List<Departamento>> findByEstado(boolean estado) {
+        return Optional.ofNullable(departamentoRepo.findByEstado(estado));
+    }
+
+     @Override
+    @Transactional(readOnly = true)
+    public Optional<Departamento> findByNombre(String nombre) {
+       return departamentoRepo.findByNombre(nombre);
     }
     
     
