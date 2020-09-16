@@ -23,12 +23,12 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
     @Autowired
     private IDepartamentoRepository departamentoRepo;
 
-    
-     @Override
+    @Override
     @Transactional(readOnly = true)
     public Optional<Departamento> findById(Long id) {
         return departamentoRepo.findById(id);
     }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Departamento>> findAll() {
@@ -37,25 +37,34 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
 
     @Override
     public Departamento create(Departamento departamento) {
-       return departamentoRepo.save(departamento);
+        return departamentoRepo.save(departamento);
     }
 
     @Override
     public void delete(Long id) {
-      departamentoRepo.deleteById(id);
+        departamentoRepo.deleteById(id);
     }
 
- @Override
+    @Override
     @Transactional(readOnly = true)
     public Optional<List<Departamento>> findByEstado(boolean estado) {
         return Optional.ofNullable(departamentoRepo.findByEstado(estado));
     }
 
-     @Override
+    @Override
     @Transactional(readOnly = true)
     public Optional<Departamento> findByNombre(String nombre) {
-       return departamentoRepo.findByNombre(nombre);
+        return departamentoRepo.findByNombre(nombre);
     }
-    
-    
+
+    @Override
+    @Transactional
+    public Optional<Departamento> update(Departamento departamento, Long id) {
+        if (departamentoRepo.findById(id).isPresent()) {
+            return Optional.ofNullable(departamentoRepo.save(departamento));
+        } else {
+            return null;
+        }
+    }
+
 }
