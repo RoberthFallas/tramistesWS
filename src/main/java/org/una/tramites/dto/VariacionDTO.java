@@ -34,4 +34,8 @@ public class VariacionDTO {
     private TramiteTipoDTO tramite_tipo;
 
     private List<RequisitoDTO> requisitoDTOs = new ArrayList<>();
+
+    public void adjuntarTipoTramite(TramiteTipoDTO tipoTramite) {
+        this.tramite_tipo = tipoTramite;
+    }
 }
