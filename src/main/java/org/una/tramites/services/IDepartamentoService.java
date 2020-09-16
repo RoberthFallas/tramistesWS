@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.una.tramites.entities.Departamento;
 
 
+
 /**
  *
  * @author Roberth
@@ -27,4 +28,6 @@ public interface IDepartamentoService {
     public Optional<List<Departamento>> findByEstado(boolean estado);
 
     public Optional<Departamento> findByNombre(String cedula);
+     public Optional<Departamento> update(Departamento departamento, Long id);
+    
 }
