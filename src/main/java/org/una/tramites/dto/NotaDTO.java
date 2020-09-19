@@ -21,13 +21,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RequisitoDTO {
+public class NotaDTO {
 
     private Long id;
-    private String descripcion;
-    private Date fechaRegistro;
     private boolean estado;
+    private boolean tipo;
+    private String titulo;
+    private String contenido;
+    private Date fechaRegistro;
+    private Date fechaModificacion;
     @Setter(AccessLevel.NONE)
-    private VariacionDTO variacion;
-
+    private TramiteRegistradoDTO tramitesRegistrados;
 }

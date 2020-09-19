@@ -26,16 +26,16 @@ import org.una.tramites.utils.MapperUtils;
 import org.una.tramites.SecurityConfiguration;
 import org.una.tramites.jwt.JwtProvider;
 
-
 @Service
 public class UsuarioServiceImplementation implements UserDetailsService, IUsuarioService {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
-      @Autowired
+    @Autowired
     private JwtProvider jwtProvider;
-      @Autowired
+    @Autowired
     private AuthenticationManager authenticationManager;
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Usuario>> findAll() {
@@ -144,13 +144,11 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         }
     } // TODO: Piense donde se debe llamar esta función
 
-     @Override
+    @Override
     public String login(AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtProvider.generateToken(authenticationRequest);
     }
-
-    
 
 }
