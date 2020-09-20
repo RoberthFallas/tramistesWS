@@ -41,22 +41,22 @@ public class VariacionServiceImplementacion implements IVariacionService {
         return variacionRepository.findById(id);
     }
 
-//    @Override
-//    @Transactional
-//    public Optional<VariacionDTO> create(VariacionDTO variacion) {
-//        Optional<TramiteTipo> opt = tipoTramiteRepo.findById(variacion.getTramite_tipo().getId());
-//        if (opt.isPresent()) {
-//            TramiteTipo entityTT = opt.get();
-//            Variacion toSave = MapperUtils.entityFromDto(variacion, Variacion.class);
-//            toSave.setTramite_tipos(entityTT);
-//            toSave = variacionRepository.save(toSave);
-//            VariacionDTO variacionDTO = MapperUtils.DtoFromEntity(toSave, VariacionDTO.class);
-//            variacionDTO.adjuntarTipoTramite(variacion.getTramite_tipo());
-//            return Optional.of(variacionDTO);
-//        } else {
-//            return Optional.empty();
-//        }
-//    }
+    @Override
+    @Transactional
+    public Optional<VariacionDTO> create(VariacionDTO variacion) {
+        Optional<TramiteTipo> opt = tipoTramiteRepo.findById(variacion.getTramite_tipo().getId());
+        if (opt.isPresent()) {
+            TramiteTipo entityTT = opt.get();
+            Variacion toSave = MapperUtils.entityFromDto(variacion, Variacion.class);
+            toSave.setTramite_tipos(entityTT);
+            toSave = variacionRepository.save(toSave);
+            VariacionDTO variacionDTO = MapperUtils.DtoFromEntity(toSave, VariacionDTO.class);
+            variacionDTO.adjuntarTipoTramite(variacion.getTramite_tipo());
+            return Optional.of(variacionDTO);
+        } else {
+            return Optional.empty();
+        }
+    }
 
     @Override
     @Transactional

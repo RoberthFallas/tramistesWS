@@ -24,6 +24,8 @@ import org.una.tramites.entities.Usuario;
 import org.una.tramites.repositories.IUsuarioRepository;
 import org.una.tramites.utils.MapperUtils;
 import org.una.tramites.SecurityConfiguration;
+import org.una.tramites.dto.AuthenticationResponse;
+import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.jwt.JwtProvider;
 
 @Service
@@ -145,10 +147,33 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
     } // TODO: Piense donde se debe llamar esta función
 
     @Override
-    public String login(AuthenticationRequest authenticationRequest) {
+    public String login2(AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtProvider.generateToken(authenticationRequest);
     }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+//
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+//
+//        Optional<Usuario> usuario = findByCedula(authenticationRequest.getCedula());
+//
+//        if (usuario.isPresent()) {
+//            authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
+//            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
+//            authenticationResponse.setUsuario(usuarioDto);
+//            List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisos(), PermisoOtorgadoDTO.class);
+//            authenticationResponse.setPermisos(permisosOtorgadosDto);
+//
+//            return authenticationResponse;
+//        } else {
+//           return null;
+//        }
+//
+//    }
 
 }
