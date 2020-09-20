@@ -25,4 +25,5 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Long> {
 
     @Query("select p from Permiso p where p.codigo = :codigo")
     public Permiso findByCodigo(String codigo);
+    //public long countByX(type X);
 }
