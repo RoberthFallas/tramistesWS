@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,9 @@ public class UsuarioController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_TODO')")
+    public ResponseEntity<?> findAll() {
         try {
             Optional<List<Usuario>> result = usuarioService.findAll();
             if (result.isPresent()) {
@@ -57,6 +59,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un usuario a travez de su identificador unico", response = UsuarioDTO.class, tags = "Usuarios")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -145,8 +148,8 @@ public class UsuarioController {
 //            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 //        }
 //    }
-
     @GetMapping("/cedula/{term}")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_CEDULA')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByCedulaAproximate(term);
@@ -162,6 +165,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/nombre/{term}")
+    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_NOMBRE')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -179,6 +183,7 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
     public ResponseEntity<?> create(@RequestBody Usuario usuario) {
         try {
             Usuario usuarioCreated = usuarioService.create(usuario);
@@ -191,6 +196,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Usuario usuarioModified) {
         try {
             Optional<Usuario> usuarioUpdated = usuarioService.update(usuarioModified, id);
@@ -208,6 +214,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             usuarioService.delete(id);
@@ -221,6 +228,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasAuthority('USUARIO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             usuarioService.deleteAll();

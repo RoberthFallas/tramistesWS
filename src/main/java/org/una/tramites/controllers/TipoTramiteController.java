@@ -10,12 +10,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TramiteTipoDTO;
 import org.una.tramites.services.ITipoTramiteService;
@@ -32,8 +34,10 @@ public class TipoTramiteController {
     @Autowired
     private ITipoTramiteService tipoTramiteService;
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/create")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CREAR')")
     public ResponseEntity<?> create(@RequestBody TramiteTipoDTO tipoTramite) {
         try {
             Optional result = tipoTramiteService.create(tipoTramite);
@@ -48,6 +52,7 @@ public class TipoTramiteController {
 
     @PostMapping("/update")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_TIPO_MODIFICAR')")
     public ResponseEntity<?> update(@RequestBody TramiteTipoDTO tipoTramite) {
         try {
             Optional result = tipoTramiteService.update(tipoTramite);
@@ -62,6 +67,7 @@ public class TipoTramiteController {
 
     @GetMapping("findByEstado/{estado}")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CONSULTAR_ESTADO')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
         try {
             Optional result = tipoTramiteService.getByEstado(estado);
@@ -73,6 +79,7 @@ public class TipoTramiteController {
 
     @GetMapping("/findByDescripcion/{descripcion}")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CONSULTAR_DESCRIPCION')")
     public ResponseEntity<?> findByDescripcio(@PathVariable(value = "descripcion") String descripcion) {
         try {
             Optional result = tipoTramiteService.getByDescripcion(descripcion);
@@ -84,6 +91,7 @@ public class TipoTramiteController {
 
     @GetMapping("/getAll")
     @ResponseBody
+      @PreAuthorize("hasAuthority('TRAMITE_TIPO_CONSULTAR_TODO')")
     public ResponseEntity<?> getAll() {
         try {
             Optional result = tipoTramiteService.getAll();

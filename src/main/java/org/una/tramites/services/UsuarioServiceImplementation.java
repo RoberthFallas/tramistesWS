@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.AuthenticationRequest;
@@ -26,6 +27,7 @@ import org.una.tramites.utils.MapperUtils;
 import org.una.tramites.SecurityConfiguration;
 import org.una.tramites.dto.AuthenticationResponse;
 import org.una.tramites.dto.PermisoOtorgadoDTO;
+import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.jwt.JwtProvider;
 
 @Service
@@ -121,13 +123,34 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         return usuarioRepository.findByCedula(cedula);
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+//        if (usuarioBuscado.isPresent()) {
+//            Usuario usuario = usuarioBuscado.get();
+//            List<GrantedAuthority> roles = new ArrayList<>();
+//            roles.add(new SimpleGrantedAuthority("ADMIN"));
+//            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
+//            return userDetails;
+//        } else {
+//            return null;
+//        }
+//
+//    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+        //Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+        Optional<Usuario>usuarioBuscado=(usuarioRepository.findByCedula(username));
         if (usuarioBuscado.isPresent()) {
             Usuario usuario = usuarioBuscado.get();
             List<GrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority("ADMIN"));
+            for(PermisoOtorgado p:usuario.getPermisos()){
+            roles.add(new SimpleGrantedAuthority(p.getPermiso().getDescripcion()));
+            }
+            for(GrantedAuthority role:roles){
+                System.out.println("org.una.tramites.services.UsuarioServiceImplementation.loadUserByUsername()"+role);
+            }
+            //roles.add(new SimpleGrantedAuthority("ADMIN"));
             UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
             return userDetails;
         } else {

@@ -13,6 +13,7 @@ import org.una.tramites.utils.MapperUtils;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/archivos_relacionados")
@@ -24,6 +25,7 @@ public class ArchivoRelacionadoController {
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos las notas", response = ArchivoRelacionadoDTO.class, responseContainer = "List", tags = "Archivos Relacionados")
     public @ResponseBody
+              @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
             Optional<List<ArchivoRelacionado>> result = archivosrelacionadosService.findAll();
@@ -40,6 +42,7 @@ public class ArchivoRelacionadoController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene la lista de archivos relacionados a travez de su identificador unico", response = ArchivoRelacionadoDTO.class, tags = "Archivos Relacionados")
+     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -56,6 +59,7 @@ public class ArchivoRelacionadoController {
 
 
     @DeleteMapping("/{id}")
+     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             archivosrelacionadosService.delete(id);
@@ -69,6 +73,7 @@ public class ArchivoRelacionadoController {
     }
 
     @DeleteMapping("/")
+      @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             archivosrelacionadosService.deleteAll();
@@ -83,6 +88,7 @@ public class ArchivoRelacionadoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CREAR')")
     public ResponseEntity<?> create(@RequestBody ArchivoRelacionado archivoRelacionado) {
         try {
             ArchivoRelacionado archivoCreated = archivosrelacionadosService.create(archivoRelacionado);
@@ -95,6 +101,7 @@ public class ArchivoRelacionadoController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody ArchivoRelacionado archivoModified) {
         try {
             Optional<ArchivoRelacionado> archivoUpdated = archivosrelacionadosService.update(archivoModified, id);

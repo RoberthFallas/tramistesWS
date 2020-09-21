@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,22 +28,22 @@ import org.una.tramites.entities.TramiteEstado;
 import org.una.tramites.services.ITramiteEstadoService;
 import org.una.tramites.utils.MapperUtils;
 
-
 /**
  *
  * @author LordLalo
  */
-
 @RestController
 @RequestMapping("/tramites_estados")
 @Api(tags = {"Tramites_Estados"})
 public class TramiteEstadoController {
-     @Autowired
+
+    @Autowired
     private ITramiteEstadoService tramiteEstadoService;
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los tramites qur poseen estados", response = TramiteEstadoDTO.class, responseContainer = "List", tags = "Tramites_Estados")
     public @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
             Optional<List<TramiteEstado>> result = tramiteEstadoService.findAll();
@@ -58,6 +59,7 @@ public class TramiteEstadoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CONSULTAR')")
     @ApiOperation(value = "Obtiene un tipo de tramite a travez de su identificador unico", response = TramiteEstadoDTO.class, tags = "Tramites_Estados")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
@@ -76,6 +78,7 @@ public class TramiteEstadoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CREAR')")
     public ResponseEntity<?> create(@RequestBody TramiteEstado tramite) {
         try {
             TramiteEstado usuarioCreated = tramiteEstadoService.create(tramite);
@@ -88,9 +91,10 @@ public class TramiteEstadoController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteEstado traModified) {
         try {
-            Optional <TramiteEstado> traUpdated = tramiteEstadoService.update(traModified, id);
+            Optional<TramiteEstado> traUpdated = tramiteEstadoService.update(traModified, id);
             if (traUpdated.isPresent()) {
                 TramiteEstadoDTO traDto = MapperUtils.DtoFromEntity(traUpdated.get(), TramiteEstadoDTO.class);
                 return new ResponseEntity<>(traDto, HttpStatus.OK);
@@ -105,6 +109,7 @@ public class TramiteEstadoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             tramiteEstadoService.delete(id);
@@ -118,6 +123,7 @@ public class TramiteEstadoController {
     }
 
     @DeleteMapping("/")
+     @PreAuthorize("hasAuthority('TRAMITE_ESTADO_ELIMINAR')")
     public ResponseEntity<?> deleteAll() {
         try {
             tramiteEstadoService.deleteAll();
@@ -128,4 +134,5 @@ public class TramiteEstadoController {
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-}}
+    }
+}

@@ -13,21 +13,25 @@ import org.una.tramites.utils.MapperUtils;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/requisito")
 @Api(tags = {"Requisitos"})
 public class RequisitoController {
+
     @Autowired
     private IRequisitoService requisitosService;
 
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos los requisitos", response =  RequisitoDTO.class, responseContainer = "List", tags = "Requisitos")
+    @ApiOperation(value = "Obtiene una lista de todos los requisitos", response = RequisitoDTO.class, responseContainer = "List", tags = "Requisitos")
     public @ResponseBody
+    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
             Optional<List<Requisito>> result = requisitosService.findAll();
             if (result.isPresent()) {
-                List< RequisitoDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(),  RequisitoDTO.class);
+                List< RequisitoDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), RequisitoDTO.class);
                 return new ResponseEntity<>(resultDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -38,7 +42,8 @@ public class RequisitoController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene la lista de requisitos  a travez de su identificador unico", response =  RequisitoDTO.class, tags = "Requisitos")
+    @ApiOperation(value = "Obtiene la lista de requisitos  a travez de su identificador unico", response = RequisitoDTO.class, tags = "Requisitos")
+    @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -53,8 +58,8 @@ public class RequisitoController {
         }
     }
 
-
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('REQUISITO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             requisitosService.delete(id);
@@ -68,6 +73,7 @@ public class RequisitoController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasAuthority('REQUISITO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             requisitosService.deleteAll();

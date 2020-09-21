@@ -16,6 +16,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,16 +32,19 @@ import org.una.tramites.entities.Cliente;
 import org.una.tramites.services.IClienteServices;
 
 import org.una.tramites.utils.MapperUtils;
+
 @RestController
 @RequestMapping("/clientes")
 @Api(tags = {"Clientes"})
 public class ClienteController {
-     @Autowired
+
+    @Autowired
     private IClienteServices clienteService;
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Clientes", response = ClienteDTO.class, responseContainer = "List", tags = "Clientes")
     public @ResponseBody
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
             Optional<List<Cliente>> result = clienteService.findAll();
@@ -57,6 +61,7 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un cliente a travez de su identificador unico", response = ClienteDTO.class, tags = "Clientes")
+     @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -73,6 +78,7 @@ public class ClienteController {
     }
 
     @GetMapping("/cedula/{term}")
+      @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_CEDULA_APROXIMADA')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Cliente>> result = clienteService.findByCedulaAproximate(term);
@@ -88,6 +94,7 @@ public class ClienteController {
     }
 
     @GetMapping("/nombre/{term}")
+    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_NOMBRE_APROXIMADO')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Cliente>> result = clienteService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -105,6 +112,7 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasAuthority('CLIENTE_CREAR')")
     public ResponseEntity<?> create(@RequestBody Cliente cliente) {
         try {
             Cliente clienteCreated = clienteService.create(cliente);
@@ -117,6 +125,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseBody
+     @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Cliente clienteModified) {
         try {
             Optional<Cliente> clienteUpdated = clienteService.update(clienteModified, id);
@@ -134,6 +143,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
+     @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             clienteService.delete(id);
@@ -147,6 +157,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasAuthority('CLIENTE_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             clienteService.deleteAll();

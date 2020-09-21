@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,8 +41,9 @@ public class ParametroGeneralController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los parametros", response = ParametroGeneralDto.class, responseContainer = "List", tags = "ParametrosGenerales")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ResponseBody
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR_TODO')")
+    public ResponseEntity<?> findAll() {
         try {
             Optional<List<ParametroGeneral>> result = parametroGeneralService.findAll();
             if (result.isPresent()) {
@@ -57,6 +59,7 @@ public class ParametroGeneralController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un departamento a travez de su identificador unico", response = ParametroGeneralDto.class, tags = "ParametrosGenerales")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -75,6 +78,7 @@ public class ParametroGeneralController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CREAR')")
     public ResponseEntity<?> create(@RequestBody ParametroGeneral parametroG) {
         try {
             ParametroGeneral parametroGeneralCreated = parametroGeneralService.create(parametroG);
@@ -86,6 +90,7 @@ public class ParametroGeneralController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             parametroGeneralService.delete(id);
@@ -99,6 +104,7 @@ public class ParametroGeneralController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             parametroGeneralService.deleteAll();

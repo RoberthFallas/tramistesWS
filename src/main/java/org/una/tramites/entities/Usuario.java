@@ -73,7 +73,7 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "departamentos_id")
     private Departamento departamento;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<PermisoOtorgado> permisos = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;

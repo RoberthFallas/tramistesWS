@@ -1,6 +1,4 @@
-
 package org.una.tramites.controllers;
-
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,21 +13,25 @@ import org.una.tramites.utils.MapperUtils;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/requisito_presentado")
 @Api(tags = {"Requisitos Presentados"})
 public class RequisitoPresentadoController {
+
     @Autowired
     private IRequisitoPresentadoService requisitospresentadosService;
 
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos los requisitos presentados", response =  RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
-    public @ResponseBody
-    ResponseEntity<?> findAll() {
+    @ApiOperation(value = "Obtiene una lista de todos los requisitos presentados", response = RequisitoPresentadoDTO.class, responseContainer = "List", tags = "Requisitos Presentados")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR_TODO')")
+    public ResponseEntity<?> findAll() {
         try {
             Optional<List<RequisitoPresentado>> result = requisitospresentadosService.findAll();
             if (result.isPresent()) {
-                List< RequisitoPresentadoDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(),  RequisitoPresentadoDTO.class);
+                List< RequisitoPresentadoDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), RequisitoPresentadoDTO.class);
                 return new ResponseEntity<>(resultDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,7 +42,8 @@ public class RequisitoPresentadoController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene la lista de requisitos presentados a travez de su identificador unico", response =  RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
+    @ApiOperation(value = "Obtiene la lista de requisitos presentados a travez de su identificador unico", response = RequisitoPresentadoDTO.class, tags = "Requisitos Presentados")
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -55,8 +58,8 @@ public class RequisitoPresentadoController {
         }
     }
 
-
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             requisitospresentadosService.delete(id);
@@ -70,6 +73,7 @@ public class RequisitoPresentadoController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             requisitospresentadosService.deleteAll();

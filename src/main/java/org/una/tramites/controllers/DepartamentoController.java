@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class DepartamentoController {
     @GetMapping("buscarTodo")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = UsuarioDTO.class, responseContainer = "List", tags = "Departamentos")
+  @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_TODO')")
     public ResponseEntity<?> findAll() {
         try {
             Optional<List<Departamento>> result = departamentoService.findAll();
@@ -54,6 +56,7 @@ public class DepartamentoController {
 
     @GetMapping("/{idDepartamento}")
     @ApiOperation(value = "Obtiene un Departamento a travez de su identificador unico", response = DepartamentoDTO.class, tags = "Departamentos")
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "idDepartamento") Long id) {
         try {
             Optional<Departamento> departamentoFound = departamentoService.findById(id);
@@ -61,7 +64,7 @@ public class DepartamentoController {
                 DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(departamentoFound.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("NO_CONTENT",HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>("NO_CONTENT", HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,6 +74,8 @@ public class DepartamentoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/create")
     @ResponseBody
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_CREAR')")
+    
     public ResponseEntity<?> create(@RequestBody Departamento departamento) {
         try {
             Departamento departamentoCreated = departamentoService.create(departamento);
@@ -82,6 +87,7 @@ public class DepartamentoController {
     }
 
     @DeleteMapping("/{id}")
+      @PreAuthorize("hasAuthority('DEPARTAMENTO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             departamentoService.delete(id);
@@ -91,16 +97,18 @@ public class DepartamentoController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }}
-    
-     @GetMapping("/findByEstado/{estado}")
+        }
+    }
+
+    @GetMapping("/findByEstado/{estado}")
     @ResponseBody
     @ApiOperation(value = "Obtiene una lista de los estados", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
+      @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_ESTADO')")
     public ResponseEntity<?> findByEstado(@PathVariable(value = "estado") boolean estado) {
         try {
             Optional<List<Departamento>> result = departamentoService.findByEstado(estado);
             if (result.isPresent()) {
-                List<DepartamentoDTO> departamentoDTO= MapperUtils.DtoListFromEntityList(result.get(), DepartamentoDTO.class);
+                List<DepartamentoDTO> departamentoDTO = MapperUtils.DtoListFromEntityList(result.get(), DepartamentoDTO.class);
                 return new ResponseEntity<>(departamentoDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -109,9 +117,11 @@ public class DepartamentoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/buscar/{nombre}")
-    public ResponseEntity<?> findByDescripcion(@PathVariable(value = "nombre")String nombre){
-        try{
+     @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_DESCRIPCION')")
+    public ResponseEntity<?> findByDescripcion(@PathVariable(value = "nombre") String nombre) {
+        try {
             Optional<Departamento> result = departamentoService.findByNombre(nombre);
             if (result.isPresent()) {
                 DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(result.get(), DepartamentoDTO.class);
@@ -123,9 +133,11 @@ public class DepartamentoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     @PutMapping("/{id}")
+
+    @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Departamento departamento ) {
+    @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Departamento departamento) {
         try {
             Optional<Departamento> perUpdated = departamentoService.update(departamento, id);
             if (perUpdated.isPresent()) {
@@ -138,6 +150,5 @@ public class DepartamentoController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-     
 
 }
