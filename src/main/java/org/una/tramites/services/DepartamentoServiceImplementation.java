@@ -10,8 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.DepartamentoDTO;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.repositories.IDepartamentoRepository;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -23,21 +25,63 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
     @Autowired
     private IDepartamentoRepository departamentoRepo;
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Departamento> findById(Long id) {
-        return departamentoRepo.findById(id);
+    private Optional<List<DepartamentoDTO>> findList(List<Departamento> list) {
+        if (list != null) {
+            List<DepartamentoDTO> departamentoDTO = MapperUtils.DtoListFromEntityList(list, DepartamentoDTO.class);
+            return Optional.ofNullable(departamentoDTO);
+        } else {
+            return null;
+        }
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Departamento>> findAll() {
-        return Optional.ofNullable(departamentoRepo.findAll());
+    private Optional<List<DepartamentoDTO>> findList(Optional<List<Departamento>> list) {
+        if (list.isPresent()) {
+            return findList(list.get());
+        } else {
+            return null;
+        }
     }
 
+    private Optional<DepartamentoDTO> oneToDto(Optional<Departamento> one) {
+        if (one.isPresent()) {
+            DepartamentoDTO departamentoDTO = MapperUtils.DtoFromEntity(one.get(), DepartamentoDTO.class);
+            return Optional.ofNullable(departamentoDTO);
+        } else {
+            return null;
+        }
+    }
+
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Optional<DepartamentoDTO> findById(Long id) {
+//        return departamentoRepo.findById(id);
+//    }
     @Override
-    public Departamento create(Departamento departamento) {
-        return departamentoRepo.save(departamento);
+    @Transactional(readOnly = true)
+    public Optional<DepartamentoDTO> findById(Long id) {
+        return oneToDto(departamentoRepo.findById(id));
+    }
+
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Optional<List<Departamento>> findAll() {
+//        return Optional.ofNullable(departamentoRepo.findAll());
+//    }
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<DepartamentoDTO>> findAll() {
+        return findList(departamentoRepo.findAll());
+    }
+
+//    @Override
+//    public Departamento create(Departamento departamento) {
+//        return departamentoRepo.save(departamento);
+//    }
+    @Override
+    public DepartamentoDTO create(DepartamentoDTO departamentoDTO) {
+        Departamento departamento = MapperUtils.EntityFromDto(departamentoDTO, Departamento.class);
+        departamento = departamentoRepo.save(departamento);
+        return MapperUtils.DtoFromEntity(departamento, DepartamentoDTO.class);
     }
 
     @Override
@@ -47,24 +91,49 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Departamento>> findByEstado(boolean estado) {
-        return Optional.ofNullable(departamentoRepo.findByEstado(estado));
+    public Optional<List<DepartamentoDTO>> findByEstado(boolean estado) {
+//        return Optional.ofNullable(departamentoRepo.findByEstado(estado));
+        return findList(departamentoRepo.findByEstado(estado));
+        
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Departamento> findByNombre(String nombre) {
-        return departamentoRepo.findByNombre(nombre);
+    public Optional<DepartamentoDTO> findByNombre(String nombre) {
+        return oneToDto(departamentoRepo.findByNombre(nombre));
     }
 
     @Override
     @Transactional
-    public Optional<Departamento> update(Departamento departamento, Long id) {
+    public Optional<DepartamentoDTO> update(DepartamentoDTO departamentoDTO, Long id) {
         if (departamentoRepo.findById(id).isPresent()) {
-            return Optional.ofNullable(departamentoRepo.save(departamento));
+            Departamento departamento = MapperUtils.EntityFromDto(departamentoDTO, Departamento.class);
+            departamento = departamentoRepo.save(departamento);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(departamento, DepartamentoDTO.class));
         } else {
             return null;
         }
     }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Optional<List<Departamento>> findByEstado(boolean estado) {
+//        return Optional.ofNullable(departamentoRepo.findByEstado(estado));
+//    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Optional<Departamento> findByNombre(String nombre) {
+//        return departamentoRepo.findByNombre(nombre);
+//    }
+//
+//    @Override
+//    @Transactional
+//    public Optional<Departamento> update(Departamento departamento, Long id) {
+//        if (departamentoRepo.findById(id).isPresent()) {
+//            return Optional.ofNullable(departamentoRepo.save(departamento));
+//        } else {
+//            return null;
+//        }
+//    }
 
 }

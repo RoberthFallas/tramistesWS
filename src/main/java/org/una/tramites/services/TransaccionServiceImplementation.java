@@ -11,9 +11,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TransaccionDTO;
 import org.una.tramites.entities.Transaccion;
 
 import org.una.tramites.repositories.ITransaccionRepository;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -24,39 +26,80 @@ public class TransaccionServiceImplementation implements ITransaccionService {
 
     @Autowired
     private ITransaccionRepository transaccionRepository;
+    private Optional<List<TransaccionDTO>> findList(List<Transaccion> list) {
+        if (list != null) {
+            List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(list, TransaccionDTO.class);
+            return Optional.ofNullable(transaccionDTO);
+        } else {
+            return null;
+        }
+    }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Transaccion> findById(Long id) {
-        return transaccionRepository.findById(id);
+
+    private Optional<List<TransaccionDTO>> findList(Optional<List<Transaccion>> list) {
+        if (list.isPresent()) {
+            return findList(list.get());
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<TransaccionDTO> oneToDto(Optional<Transaccion> one) {
+        if (one.isPresent()) {
+            TransaccionDTO transaccionDTO = MapperUtils.DtoFromEntity(one.get(), TransaccionDTO.class);
+            return Optional.ofNullable(transaccionDTO);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Optional<List<Transaccion>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional(readOnly = true)
+    public Optional<TransaccionDTO> findById(Long id) {
+        return oneToDto(transaccionRepository.findById(id));
+    }
+
+    @Override
+    public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
+     return findList(transaccionRepository.findByUsuarioIdAndFechaRegistroBetween(usuarioId, startDate, endDate));
     }
 
      @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
-       return  Optional.ofNullable(transaccionRepository.findAll());
+    public Optional<List<TransaccionDTO>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
+       return findList(transaccionRepository.findByPermisoIdAndFechaRegistroBetween(permisoId, startDate, endDate));
     }
 
     @Override
     @Transactional
-    public Optional<List<Transaccion>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<List<TransaccionDTO>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
+       return findList(transaccionRepository.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate));
     }
 
     @Override
-    public Optional<List<Transaccion>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+      return findList(transaccionRepository.findByFechaRegistroBetween(startDate, endDate));
     }
 
      @Override
     @Transactional
-    public Transaccion create(Transaccion transaccion) {
-       return transaccionRepository.save(transaccion);
+    public TransaccionDTO create(TransaccionDTO transaccionDTO) {
+     Transaccion transaccion=MapperUtils.EntityFromDto(transaccionDTO,Transaccion.class);
+     transaccion=transaccionRepository.save(transaccion);
+     return MapperUtils.DtoFromEntity(transaccion,TransaccionDTO.class);
     }
+
+    @Override
+    public Optional<TransaccionDTO> update(TransaccionDTO transaccionDTO,Long id) {
+               if (transaccionRepository.findById(id).isPresent()) {
+         
+           Transaccion transaccion = MapperUtils.EntityFromDto(transaccionDTO, Transaccion.class);
+            transaccion= transaccionRepository.save(transaccion);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(transaccion, TransaccionDTO.class));
+        } else {
+            return null;
+        } 
+    }
+
 
 }

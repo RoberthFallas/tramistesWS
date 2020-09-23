@@ -10,8 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TramiteEstadoDTO;
 import org.una.tramites.entities.TramiteEstado;
 import org.una.tramites.repositories.ITramiteEstadoRepository;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -20,31 +22,63 @@ import org.una.tramites.repositories.ITramiteEstadoRepository;
 @Service
 public class TramiteEstadoServiceImplementation implements ITramiteEstadoService {
 
-   @Autowired
+    @Autowired
     private ITramiteEstadoRepository tramiteEstadoRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<TramiteEstado> findById(Long id) {
-        return tramiteEstadoRepository.findById(id);
+    private Optional<List<TramiteEstadoDTO>> findList(List<TramiteEstado> list) {
+        if (list != null) {
+            List<TramiteEstadoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(list, TramiteEstadoDTO.class);
+            return Optional.ofNullable(usuariosDTO);
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<List<TramiteEstadoDTO>> findList(Optional<List<TramiteEstado>> list) {
+        if (list.isPresent()) {
+            return findList(list.get());
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<TramiteEstadoDTO> oneToDto(Optional<TramiteEstado> one) {
+        if (one.isPresent()) {
+            TramiteEstadoDTO requisitoDTO = MapperUtils.DtoFromEntity(one.get(), TramiteEstadoDTO.class);
+            return Optional.ofNullable(requisitoDTO);
+        } else {
+            return null;
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<TramiteEstado>> findAll() {
-        return Optional.ofNullable(tramiteEstadoRepository.findAll());
+    public Optional<TramiteEstadoDTO> findById(Long id) {
+        return oneToDto(tramiteEstadoRepository.findById(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<TramiteEstadoDTO>> findAll() {
+        return findList(tramiteEstadoRepository.findAll());
     }
 
     @Override
     @Transactional
-    public TramiteEstado create(TramiteEstado tramites) {
-        return tramiteEstadoRepository.save(tramites);
+    public TramiteEstadoDTO create(TramiteEstadoDTO tramiteEstadoDTO) {
+        TramiteEstado tramiteEstado = MapperUtils.EntityFromDto(tramiteEstadoDTO,TramiteEstado.class);
+        tramiteEstado = tramiteEstadoRepository.save(tramiteEstado);
+        return MapperUtils.DtoFromEntity(tramiteEstado,TramiteEstadoDTO.class);
     }
 
     @Override
-    public Optional<TramiteEstado> update(TramiteEstado tramites, Long id) {
+    @Transactional
+    public Optional<TramiteEstadoDTO> update(TramiteEstadoDTO tramiteEstadoDTO, Long id) {
+
         if (tramiteEstadoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(tramiteEstadoRepository.save(tramites));
+            TramiteEstado tramiteEstado = MapperUtils.EntityFromDto(tramiteEstadoDTO, TramiteEstado.class);
+            tramiteEstado = tramiteEstadoRepository.save(tramiteEstado);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(tramiteEstado, TramiteEstadoDTO.class));
         } else {
             return null;
         }
@@ -59,5 +93,5 @@ public class TramiteEstadoServiceImplementation implements ITramiteEstadoService
     public void deleteAll() {
         tramiteEstadoRepository.deleteAll();
     }
-    
+
 }

@@ -3,6 +3,7 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.NotaDTO;
 import org.una.tramites.entities.Nota;
 
 /**
@@ -10,18 +11,30 @@ import org.una.tramites.entities.Nota;
  * @author LordLalo
  */
 public interface INotaService {
+//
+//    public Optional<List<Nota>> findAll();
+//
+//    public Optional<Nota> findById(Long id);
+//
+//    public Optional<Nota> findByTipo(boolean tipo);
+//
+//    public Nota create(Nota nota);
+//
+//    public Optional<Nota> update(Nota nota, Long id);
+//
+//    public Optional<Nota> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public Optional<List<Nota>> findAll();
+    public Optional<List<NotaDTO>> findAll();
 
-    public Optional<Nota> findById(Long id);
+    public Optional<NotaDTO> findById(Long id);
 
-    public Optional<Nota> findByTipo(boolean tipo);
+    public Optional<List<NotaDTO>>findByTipo(boolean tipo);
 
-    public Nota create(Nota nota);
+    public NotaDTO create(NotaDTO notaDTO);
 
-    public Optional<Nota> update(Nota nota, Long id);
+    public Optional<NotaDTO> update(NotaDTO notaDTO, Long id);
 
-    public Optional<Nota> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<NotaDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
     public void delete(Long id);
 

@@ -26,14 +26,19 @@ import lombok.ToString;
 public class PermisoOtorgadoDTO {
 
     private Long id;
-
     private Date fechaRegistro;
-
     private boolean estado;
     @Setter(AccessLevel.NONE)
     private UsuarioDTO usuario;
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     private PermisoDTO permiso;
     @Setter(AccessLevel.NONE)
     private List<TransaccionDTO> transacciones = new ArrayList<>();
+    
+    public void setAgregarUsuario(UsuarioDTO usuarioDTO){
+     usuario=usuarioDTO;
+    }
+    public void setAgregarPermiso(PermisoDTO permisoDTO){
+     permiso=permisoDTO;
+    }
 }

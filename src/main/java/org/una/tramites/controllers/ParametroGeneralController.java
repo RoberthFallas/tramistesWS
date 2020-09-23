@@ -9,10 +9,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.una.tramites.dto.ParametroGeneralDto;
+import org.una.tramites.dto.ParametroGeneralDTO;
 import org.una.tramites.entities.ParametroGeneral;
 import org.una.tramites.services.IParametroGeneralService;
 import org.una.tramites.utils.MapperUtils;
@@ -40,38 +42,25 @@ public class ParametroGeneralController {
     private IParametroGeneralService parametroGeneralService;
 
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos los parametros", response = ParametroGeneralDto.class, responseContainer = "List", tags = "ParametrosGenerales")
+    @ApiOperation(value = "Obtiene una lista de todos los parametros", response = ParametroGeneralDTO.class, responseContainer = "List", tags = "ParametrosGenerales")
     @ResponseBody
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR_TODO')")
     public ResponseEntity<?> findAll() {
         try {
-            Optional<List<ParametroGeneral>> result = parametroGeneralService.findAll();
-            if (result.isPresent()) {
-                List<ParametroGeneralDto> parametroGeneralDtos = MapperUtils.DtoListFromEntityList(result.get(), ParametroGeneralDto.class);
-                return new ResponseEntity<>(parametroGeneralDtos, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(parametroGeneralService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un departamento a travez de su identificador unico", response = ParametroGeneralDto.class, tags = "ParametrosGenerales")
+    @ApiOperation(value = "Obtiene un departamento a travez de su identificador unico", response = ParametroGeneralDTO.class, tags = "ParametrosGenerales")
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<ParametroGeneral> usuarioFound = parametroGeneralService.findById(id);
-            if (usuarioFound.isPresent()) {
-                ParametroGeneralDto parametroGeneralDto = MapperUtils.DtoFromEntity(usuarioFound.get(), ParametroGeneralDto.class);
-                return new ResponseEntity<>(parametroGeneralDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(parametroGeneralService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -79,27 +68,27 @@ public class ParametroGeneralController {
     @PostMapping("/")
     @ResponseBody
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CREAR')")
-    public ResponseEntity<?> create(@RequestBody ParametroGeneral parametroG) {
-        try {
-            ParametroGeneral parametroGeneralCreated = parametroGeneralService.create(parametroG);
-            ParametroGeneralDto parametroGeneralDto = MapperUtils.DtoFromEntity(parametroGeneralCreated, ParametroGeneralDto.class);
-            return new ResponseEntity<>(parametroGeneralDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+      public ResponseEntity<?> create(@Valid @RequestBody ParametroGeneralDTO parametroGeneralDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(parametroGeneralService.create(parametroGeneralDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             parametroGeneralService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -108,12 +97,9 @@ public class ParametroGeneralController {
     public ResponseEntity<?> deleteAll() {
         try {
             parametroGeneralService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

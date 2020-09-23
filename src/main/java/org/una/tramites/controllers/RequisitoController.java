@@ -29,15 +29,9 @@ public class RequisitoController {
     @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Requisito>> result = requisitosService.findAll();
-            if (result.isPresent()) {
-                List< RequisitoDTO> resultDto = MapperUtils.DtoListFromEntityList(result.get(), RequisitoDTO.class);
-                return new ResponseEntity<>(resultDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(requisitosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -46,13 +40,7 @@ public class RequisitoController {
     @PreAuthorize("hasAuthority('REQUISITO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<Requisito> requisitoFound = requisitosService.findById(id);
-            if (requisitoFound.isPresent()) {
-                RequisitoDTO requisitoDto = MapperUtils.DtoFromEntity(requisitoFound.get(), RequisitoDTO.class);
-                return new ResponseEntity<>(requisitoDto, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(requisitosService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,10 +51,8 @@ public class RequisitoController {
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             requisitosService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,10 +63,7 @@ public class RequisitoController {
     public ResponseEntity<?> deleteAll() {
         try {
             requisitosService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

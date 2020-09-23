@@ -9,10 +9,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,13 +46,7 @@ public class TramiteCambioEstadoController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<TramiteCambioEstado>> result = tramiteCambioEstadoService.findAll();
-            if (result.isPresent()) {
-                List<TramiteCambioEstadoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), TramiteCambioEstadoDTO.class);
-                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+           return new ResponseEntity(tramiteCambioEstadoService.findAll(),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -61,14 +57,7 @@ public class TramiteCambioEstadoController {
     @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<TramiteCambioEstado> tramiteCambioFound = tramiteCambioEstadoService.findById(id);
-            if (tramiteCambioFound.isPresent()) {
-                TramiteCambioEstadoDTO tramiteCambioEstadoDTO = MapperUtils.DtoFromEntity(tramiteCambioFound.get(), TramiteCambioEstadoDTO.class);
-                return new ResponseEntity<>(tramiteCambioEstadoDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+return new ResponseEntity(tramiteCambioEstadoService.findById(id),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -77,34 +66,31 @@ public class TramiteCambioEstadoController {
     @PutMapping("/{id}")
     @ResponseBody
     @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_MODIFICAR')")
-
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody TramiteCambioEstado tramiteModified) {
-        try {
-            Optional<TramiteCambioEstado> usuarioUpdated = tramiteCambioEstadoService.update(tramiteModified, id);
-            if (usuarioUpdated.isPresent()) {
-                TramiteCambioEstadoDTO tramiteCambioEstadoDTO = MapperUtils.DtoFromEntity(usuarioUpdated.get(), TramiteCambioEstadoDTO.class);
-                return new ResponseEntity<>(tramiteCambioEstadoDTO, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+  public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteCambioEstadoDTO tramiteCambioEstadoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<TramiteCambioEstadoDTO> tramiteUpdated = tramiteCambioEstadoService.update(tramiteCambioEstadoDTO, id);
+                if (tramiteUpdated.isPresent()) {
+                    return new ResponseEntity(tramiteUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(' TRAMITE_CAMBIO_ESTADO_ELIMINAR')")
+    @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        try {
+     try {
             tramiteCambioEstadoService.delete(id);
-            if (findById(id).getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -113,12 +99,9 @@ public class TramiteCambioEstadoController {
     public ResponseEntity<?> deleteAll() {
         try {
             tramiteCambioEstadoService.deleteAll();
-            if (findAll().getStatusCode() == HttpStatus.NO_CONTENT) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

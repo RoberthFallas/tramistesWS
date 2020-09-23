@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,12 +36,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ArchivoRelacionado implements Serializable
-{
-     @Id
+public class ArchivoRelacionado implements Serializable {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column(name = "nombre", length = 100)
     private String nombre;
@@ -50,24 +51,35 @@ public class ArchivoRelacionado implements Serializable
     @Column
     private boolean tipo;
 
-    @Column(name="ruta_archivo")
-    private String ruta_archivo;
+    @Column(name = "ruta_archivo", length = 100)
+    private String rutaArchivo;
 
     @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
-    @Column(name="etiquetas")
-    private String etiquetas;
+    @Column(name = "etiquetas",length = 100)
+    private String etiqueta;
 
     @Column(name = "fecha_modificacion")
     @Setter(AccessLevel.NONE)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;
 
     @ManyToOne
-    @JoinColumn(name="tramites_registrados_id")
-    private TramiteRegistrado tramiteRegistrado;   
-    
+    @JoinColumn(name = "tramites_registrados_id")
+    private TramiteRegistrado tramiteRegistradoId;
+
+    @PrePersist
+    public void prePersist() {
+        fechaRegistro = new Date();
+        fechaModificacion = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        fechaModificacion = new Date();
+    }
+
 }

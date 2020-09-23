@@ -91,7 +91,7 @@ public class TipoTramiteController {
 
     @GetMapping("/getAll")
     @ResponseBody
-      @PreAuthorize("hasAuthority('TRAMITE_TIPO_CONSULTAR_TODO')")
+    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CONSULTAR_TODO')")
     public ResponseEntity<?> getAll() {
         try {
             Optional result = tipoTramiteService.getAll();

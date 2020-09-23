@@ -74,7 +74,7 @@ public class Usuario implements Serializable {
     private Departamento departamento;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<PermisoOtorgado> permisos = new ArrayList<>();
+    private List<PermisoOtorgado> permisosOtorgado = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 

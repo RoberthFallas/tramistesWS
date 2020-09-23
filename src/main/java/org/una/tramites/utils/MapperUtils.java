@@ -5,6 +5,7 @@
  */
 package org.una.tramites.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,12 +33,14 @@ public class MapperUtils {
     }
 
     public static <D, E> List<D> DtoListFromEntityList(final Collection<E> entityList, Class<D> dtoClass) {
+        if(entityList == null)
+            return new ArrayList();
         return entityList.stream()
                 .map(entity -> DtoFromEntity(entity, dtoClass))
                 .collect(Collectors.toList());
     }
     
-    public static <D, E> D entityFromDto(final E Dto, Class<D> entityClass){
+    public static <D, E> D EntityFromDto(final E Dto, Class<D> entityClass){
         return modelMapper.map(Dto, entityClass);
     }
 }
