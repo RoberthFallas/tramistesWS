@@ -24,15 +24,15 @@ public class ParametroGeneralImplementation implements IParametroGeneralService 
 
     @Autowired
     private IParametroGeneralRepository parametroGeneralRepository;
+
     private Optional<List<ParametroGeneralDTO>> findList(List<ParametroGeneral> list) {
         if (list != null) {
-            List<ParametroGeneralDTO> parametroGeneralDTO = MapperUtils.DtoListFromEntityList(list,ParametroGeneralDTO.class);
+            List<ParametroGeneralDTO> parametroGeneralDTO = MapperUtils.DtoListFromEntityList(list, ParametroGeneralDTO.class);
             return Optional.ofNullable(parametroGeneralDTO);
         } else {
             return null;
         }
     }
-
 
     private Optional<List<ParametroGeneralDTO>> findList(Optional<List<ParametroGeneral>> list) {
         if (list.isPresent()) {
@@ -66,23 +66,22 @@ public class ParametroGeneralImplementation implements IParametroGeneralService 
     @Override
     @Transactional
     public ParametroGeneralDTO create(ParametroGeneralDTO parametroGeneralDTO) {
-        ParametroGeneral parametroGeneral=MapperUtils.EntityFromDto(parametroGeneralDTO, ParametroGeneral.class);
+        ParametroGeneral parametroGeneral = MapperUtils.EntityFromDto(parametroGeneralDTO, ParametroGeneral.class);
         parametroGeneral = parametroGeneralRepository.save(parametroGeneral);
-        return MapperUtils.DtoFromEntity(parametroGeneral,ParametroGeneralDTO.class);
+        return MapperUtils.DtoFromEntity(parametroGeneral, ParametroGeneralDTO.class);
     }
 
-   
     @Override
     @Transactional
     public Optional<ParametroGeneralDTO> update(ParametroGeneralDTO parametroGeneralDTO, Long id) {
         if (parametroGeneralRepository.findById(id).isPresent()) {
             ParametroGeneral parametroGeneral = MapperUtils.EntityFromDto(parametroGeneralDTO, ParametroGeneral.class);
             parametroGeneral = parametroGeneralRepository.save(parametroGeneral);
-            return Optional.ofNullable(MapperUtils.DtoFromEntity(parametroGeneral,ParametroGeneralDTO.class));
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(parametroGeneral, ParametroGeneralDTO.class));
         } else {
             return null;
         }
-        
+
     }
 
     @Override

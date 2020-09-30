@@ -7,10 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.una.tramites.dto.TramiteRegistradoDTO;
-import org.una.tramites.entities.TramiteRegistrado;
-import org.una.tramites.utils.MapperUtils;
-
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,7 +48,7 @@ public class TramiteRegistradoController {
     @PostMapping("/")
     @ResponseBody
     @PreAuthorize("hasAuthority('TRAMITE_REGISTRAR')")
-      public ResponseEntity<?> create(@Valid @RequestBody TramiteRegistradoDTO tramiteRegistradoDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> create(@Valid @RequestBody TramiteRegistradoDTO tramiteRegistradoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
                 return new ResponseEntity(tramiteRegistradoService.create(tramiteRegistradoDTO), HttpStatus.CREATED);
@@ -64,14 +60,13 @@ public class TramiteRegistradoController {
         }
     }
 
-
     @PutMapping("/{id}")
     @ResponseBody
     @PreAuthorize("hasAuthority('TRAMITE_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteRegistradoDTO tramiteRegistradoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
-                Optional<TramiteRegistradoDTO> tramiteUpdated =tramiteRegistradoService.update(tramiteRegistradoDTO, id);
+                Optional<TramiteRegistradoDTO> tramiteUpdated = tramiteRegistradoService.update(tramiteRegistradoDTO, id);
                 if (tramiteUpdated.isPresent()) {
                     return new ResponseEntity(tramiteUpdated, HttpStatus.OK);
                 } else {

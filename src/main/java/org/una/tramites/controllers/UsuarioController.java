@@ -51,37 +51,6 @@ public class UsuarioController {
         }
     }
 
-//    public ResponseEntity<?> findAll() {
-//        try {
-//            Optional<List<Usuario>> result = usuarioService.findAll();
-//            if (result.isPresent()) {
-//                List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-     
-//    @GetMapping("/{id}")
-//    @ApiOperation(value = "Obtiene un usuario a travez de su identificador unico", response = UsuarioDTO.class, tags = "Usuarios")
-//    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
-//    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-//        try {
-//
-//            Optional<Usuario> usuarioFound = usuarioService.findById(id);
-//            if (usuarioFound.isPresent()) {
-//                UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioFound.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USUARIO_CONSULTAR')")
     @ApiOperation(value = "Obtiene un Usuario por su Id", response = UsuarioDTO.class, tags = "Usuarios")
@@ -93,94 +62,6 @@ public class UsuarioController {
         }
     }
 
-////////    /*
-////////    @PutMapping("/login")
-////////    @ResponseBody
-////////    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-////////    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-////////        try {
-////////            Usuario usuario = new Usuario();
-////////            usuario.setCedula(cedula);
-////////            usuario.setPasswordEncriptado(password);
-////////            Optional<Usuario> usuarioFound = usuarioService.login(usuario);
-////////            if (usuarioFound.isPresent()) {
-////////                UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioFound.get(), UsuarioDTO.class);
-////////                return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
-////////
-////////            } else {
-////////                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-////////            }
-////////        } catch (Exception e) {
-////////            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-////////        }
-////////
-////////    }
-////////     */
-//////////    @PostMapping("/login")
-//////////    @ResponseBody
-//////////    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-//////////    public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest, BindingResult bindingResult) {
-//////////
-//////////        if (bindingResult.hasErrors()) {
-//////////            return new ResponseEntity("La información no esta bien formada o no coincide con el formato esperado", HttpStatus.BAD_REQUEST);
-//////////        }
-//////////        try {
-//////////            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-//////////            String token = usuarioService.login2(authenticationRequest);
-//////////             AuthenticationResponse token= usuarioService.login(authenticationRequest);
-//////////            if (!token.isBlank()) {
-//////////                authenticationResponse.setJwt(token);
-//////////                
-//////////                TODO: Complete this   authenticationResponse.setUsuario(usuario);
-//////////                TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
-//////////                return new ResponseEntity(authenticationResponse, HttpStatus.OK);
-//////////            } else {
-//////////                return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);
-//////////            }
-//////////        } catch (Exception e) {
-//////////            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//////////        }
-//////////    }
-//////////    @PostMapping("/login")
-//////////    @ResponseBody
-//////////    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-//////////    public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest, BindingResult bindingResult) {
-//////////
-//////////        if (bindingResult.hasErrors()) {
-//////////            return new ResponseEntity("La información no esta bien formada o no coincide con el formato esperado", HttpStatus.BAD_REQUEST);
-//////////        }
-//////////        try {
-//////////            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-//////////            //  String token = usuarioService.login(authenticationRequest);
-//////////            AuthenticationResponse token = usuarioService.login(authenticationRequest);
-//////////            if (token != null) {
-//////////                authenticationResponse = token;
-//////////
-////////////                authenticationResponse.setUsuario(token.getUsuario());
-////////////                authenticationResponse.setPermisos(token.getPermisos());
-//////////                return new ResponseEntity(authenticationResponse, HttpStatus.OK);
-//////////            } else {
-//////////                return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);
-//////////            }
-//////////        } catch (Exception e) {
-//////////            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//////////        }
-//////////    }
-//    @GetMapping("/cedula/{term}")
-//    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_CEDULA')")
-//    public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
-//        try {
-//            Optional<List<Usuario>> result = usuarioService.findByCedulaAproximate(term);
-//            if (result.isPresent()) {
-//                List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
      @GetMapping("/cedula/{term}")
     @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_CEDULA')")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
@@ -191,21 +72,6 @@ public class UsuarioController {
        }
     }
 
-//    @GetMapping("/nombre/{term}")
-//    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_NOMBRE')")
-//    public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
-//        try {
-//            Optional<List<Usuario>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
-//            if (result.isPresent()) {
-//                List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
         @GetMapping("/nombre/{term}")
     @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_NOMBRE')")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
@@ -216,19 +82,7 @@ public class UsuarioController {
        }
        
     }
-//    @ResponseStatus(HttpStatus.OK)
-//    @PostMapping("/")
-//    @ResponseBody
-//    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
-//    public ResponseEntity<?> create(@RequestBody Usuario usuario) {
-//        try {
-//            Usuario usuarioCreated = usuarioService.create(usuario);
-//            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuarioCreated, UsuarioDTO.class);
-//            return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
@@ -291,32 +145,4 @@ public class UsuarioController {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @GetMapping("/usuarios_en_departamento/{id}")
-//    public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "id") Long id) {
-//        try {
-//            Optional<List<Usuario>> result = usuarioService.findUsersByDepartamentoId(id);
-//            if (result.isPresent()) {
-//                List<UsuarioDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(result.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
-//            }
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    @GetMapping("/jefe/{id}")
-//    public ResponseEntity<?> findJefeByDepartemento(@PathVariable(value = "id") Long id) {
-//        try {
-//            Optional<Usuario> result = usuarioService.findJefesDepartemento(id);
-//            if (result.isPresent()) {
-//                UsuarioDTO userDto = MapperUtils.DtoFromEntity(result.get(), UsuarioDTO.class);
-//                return new ResponseEntity<>(userDto, HttpStatus.OK);
-//            }
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 }

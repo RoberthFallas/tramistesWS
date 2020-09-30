@@ -37,7 +37,7 @@ public class AutenticacionServiceImplementation implements IAutenticacionService
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    UsuarioServiceImplementation usuarioServiceImplementation ;
+    UsuarioServiceImplementation usuarioServiceImplementation;
 
     @Override
     @Transactional(readOnly = true)
@@ -50,10 +50,10 @@ public class AutenticacionServiceImplementation implements IAutenticacionService
         //   Optional<Usuario> usuario = findByCedula(authenticationRequest.getCedula());
         Optional<UsuarioDTO> usuario = usuarioServiceImplementation.findByCedula(authenticationRequest.getCedula());
 //        if (usuario.isPresent()) {
-   if (usuario!=null) {
+        if (usuario != null) {
             authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
             UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
-           
+
             authenticationResponse.setUsuario(usuarioDto);
             List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisosOtorgado(), PermisoOtorgadoDTO.class);
             authenticationResponse.setPermisos(permisosOtorgadosDto);

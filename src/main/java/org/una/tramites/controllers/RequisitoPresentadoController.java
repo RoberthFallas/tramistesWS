@@ -31,7 +31,7 @@ public class RequisitoPresentadoController {
     @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR_TODO')")
     public ResponseEntity<?> findAll() {
         try {
-            return new ResponseEntity(requisitospresentadosService.findAll(),HttpStatus.OK);
+            return new ResponseEntity(requisitospresentadosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,17 +42,18 @@ public class RequisitoPresentadoController {
     @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-return new ResponseEntity(requisitospresentadosService.findById(id),HttpStatus.OK);
+            return new ResponseEntity(requisitospresentadosService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
     @PreAuthorize("hasAuthority('USUARIO_CREAR')")
-    public ResponseEntity<?> create(@RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO,BindingResult bindingResult) {
-             if (!bindingResult.hasErrors()) {
+    public ResponseEntity<?> create(@RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
             try {
                 return new ResponseEntity(requisitospresentadosService.create(requisitoPresentadoDTO), HttpStatus.CREATED);
             } catch (Exception e) {
@@ -63,9 +64,10 @@ return new ResponseEntity(requisitospresentadosService.findById(id),HttpStatus.O
         }
 
     }
+
     @PutMapping("/{id}")
     @ResponseBody
-        public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody RequisitoPresentadoDTO requisitoPresentadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
                 Optional<RequisitoPresentadoDTO> requisitoUpdated = requisitospresentadosService.update(requisitoPresentadoDTO, id);

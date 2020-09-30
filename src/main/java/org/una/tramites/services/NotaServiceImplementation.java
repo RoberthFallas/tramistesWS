@@ -44,53 +44,34 @@ public class NotaServiceImplementation implements INotaService {
         }
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<Nota> findById(Long id) {
-//        return notaRepository.findById(id);
-//    }
     @Override
     @Transactional(readOnly = true)
     public Optional<NotaDTO> findById(Long id) {
         return oneToDto(notaRepository.findById(id));
     }
-//    @Override
-//    @Transactional
-//    public Nota create(Nota nota) {
-//
-//        return notaRepository.save(nota);
-//    }
+
 
     @Override
     @Transactional
     public NotaDTO create(NotaDTO notaDTO) {
-    Nota nota=MapperUtils.EntityFromDto(notaDTO,Nota.class);
-    nota=notaRepository.save(nota);
-    return  MapperUtils.DtoFromEntity(nota,NotaDTO.class);
+        Nota nota = MapperUtils.EntityFromDto(notaDTO, Nota.class);
+        nota = notaRepository.save(nota);
+        return MapperUtils.DtoFromEntity(nota, NotaDTO.class);
     }
 
-//    @Override
-//    @Transactional
-//    public Optional<Nota> update(Nota nota, Long id) {
-//
-//        if (notaRepository.findById(id).isPresent()) {
-//            return Optional.ofNullable(notaRepository.save(nota));
-//        } else {
-//            return null;
-//        }
-//    }
     @Override
     @Transactional
     public Optional<NotaDTO> update(NotaDTO notaDTO, Long id) {
 
         if (notaRepository.findById(id).isPresent()) {
-           Nota nota=MapperUtils.EntityFromDto(notaDTO,Nota.class);
-           nota=notaRepository.save(nota);
-           return Optional.ofNullable(MapperUtils.DtoFromEntity(nota,NotaDTO.class));
+            Nota nota = MapperUtils.EntityFromDto(notaDTO, Nota.class);
+            nota = notaRepository.save(nota);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(nota, NotaDTO.class));
         } else {
             return null;
         }
     }
+
     @Override
     public Optional<List<NotaDTO>> findByTipo(boolean tipo) {
         return findList(notaRepository.findByTipo(tipo));

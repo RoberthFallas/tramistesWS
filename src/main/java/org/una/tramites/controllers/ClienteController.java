@@ -11,7 +11,6 @@ package org.una.tramites.controllers;
  */
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ClienteDTO;
-import org.una.tramites.entities.Cliente;
 import org.una.tramites.services.IClienteServices;
-
-import org.una.tramites.utils.MapperUtils;
 
 @RestController
 @RequestMapping("/clientes")
@@ -107,7 +103,7 @@ public class ClienteController {
     @ResponseBody
     @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDTO clienteDTO, BindingResult bindingResult) {
-          if (!bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             try {
                 Optional<ClienteDTO> clienteUpdated = clienteService.update(clienteDTO, id);
                 if (clienteUpdated.isPresent()) {
@@ -129,7 +125,7 @@ public class ClienteController {
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             clienteService.delete(id);
-           return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -140,7 +136,7 @@ public class ClienteController {
     public ResponseEntity<?> deleteAll() {
         try {
             clienteService.deleteAll();
-            return  new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }

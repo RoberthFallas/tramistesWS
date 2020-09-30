@@ -11,13 +11,6 @@ import org.una.tramites.entities.TramiteCambioEstado;
  */
 public interface ITramiteCambioEstadoService {
 
-//    public TramiteCambioEstado create(TramiteCambioEstado nota);
-//
-//    public Optional<TramiteCambioEstado> update(TramiteCambioEstado tramiteCambioEstado, Long id);
-//
-//    public Optional<List<TramiteCambioEstado>> findAll();
-//
-//    public Optional<TramiteCambioEstado> findById(Long id);
     public TramiteCambioEstadoDTO create(TramiteCambioEstadoDTO nota);
 
     public Optional<TramiteCambioEstadoDTO> update(TramiteCambioEstadoDTO tramiteCambioEstadoDTO, Long id);

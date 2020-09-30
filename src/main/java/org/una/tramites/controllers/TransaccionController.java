@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TransaccionDTO;
-import org.una.tramites.entities.Transaccion;
 import org.una.tramites.services.ITransaccionService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -60,7 +58,8 @@ public class TransaccionController {
         }
 
     }
-        @ApiOperation(value = "Permite modificar una Trasaccion a partir de su Id", response = TransaccionDTO.class, tags = "Transacciones")
+
+    @ApiOperation(value = "Permite modificar una Trasaccion a partir de su Id", response = TransaccionDTO.class, tags = "Transacciones")
     @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -78,6 +77,5 @@ public class TransaccionController {
             return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
     }
-
 
 }

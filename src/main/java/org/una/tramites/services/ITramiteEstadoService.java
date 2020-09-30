@@ -16,13 +16,7 @@ import org.una.tramites.entities.TramiteEstado;
  */
 
 public interface ITramiteEstadoService {
-//    public Optional<TramiteEstado> findById(Long id);
-//
-//    public Optional<List<TramiteEstado>> findAll();
-//
-//    public TramiteEstado create(TramiteEstado tramites);
-//
-//    public Optional<TramiteEstado> update(TramiteEstado tramites, Long id);
+
    public Optional<TramiteEstadoDTO> findById(Long id);
 
     public Optional<List<TramiteEstadoDTO>> findAll();

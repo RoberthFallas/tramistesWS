@@ -58,11 +58,6 @@ public class PermisoOtorgadoImplementation implements IPermisoOtorgadoService {
         return oneToDto(permisoOtorgadoRepository.findById(usuarioId));
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<PermisoOtorgado>> findByUsuarioId(Long usuarioId) {
-//        return Optional.ofNullable(permisoOtorgadoRepository.findByUsuarioId(usuarioId));
-//    }
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgadoDTO>> findByUsuarioId(Long usuarioId) {
@@ -72,34 +67,27 @@ public class PermisoOtorgadoImplementation implements IPermisoOtorgadoService {
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgadoDTO>> findByPermisoId(Long permisoId) {
-//        return Optional.ofNullable(permisoOtorgadoRepository.findByPermisoId(permisoId));
           return findList(permisoOtorgadoRepository.findByPermisoId(permisoId));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgadoDTO>> findByUsuarioIdAndEstado(Long usuarioId, boolean estado) {
-//        return Optional.ofNullable(permisoOtorgadoRepository.findByUsuarioIdAndEstado(usuarioId, estado));
           return findList(permisoOtorgadoRepository.findByUsuarioIdAndEstado(usuarioId, estado));
     }
 
     @Override
     public Optional<List<PermisoOtorgadoDTO>> findByPermisoIdAndEstado(Long permisoId, boolean estado) {
-//        return Optional.ofNullable(permisoOtorgadoRepository.findByPermisoIdAndEstado(permisoId, estado));
+
  return findList(permisoOtorgadoRepository.findByPermisoIdAndEstado(permisoId, estado));
     }
 
     @Override
     public Optional<List<PermisoOtorgadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-   //     return Optional.ofNullable(permisoOtorgadoRepository.findByFechaRegistroBetween(startDate, endDate));
+  
         return findList(permisoOtorgadoRepository.findByFechaRegistroBetween(startDate, endDate));
     }
 
-//     @Override
-//    @Transactional
-//    public PermisoOtorgado create(PermisoOtorgado permisoOtorgado) {
-//         return permisoOtorgadoRepository.save(permisoOtorgado);
-//    }
     @Override
     @Transactional
     public PermisoOtorgadoDTO create(PermisoOtorgadoDTO permisoOtorgadoDTO) {

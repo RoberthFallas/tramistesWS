@@ -132,27 +132,6 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         }
     }
 
-//    @Override
-//    @Transactional
-//    public Optional<Usuario> update(Usuario usuario, Long id) {
-//        encriptarPassword(usuario);
-//        if (usuarioRepository.findById(id).isPresent()) {
-//            return Optional.ofNullable(usuarioRepository.save(usuario));
-//        } else {
-//            return null;
-//        }
-//    }
-//    @Override
-//    @Transactional
-//    public void delete(Long id) {
-//        usuarioRepository.deleteById(id);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deleteAll() {
-//        usuarioRepository.deleteAll();
-//    }
     @Override
     @Transactional
     public void delete(Long id) {
@@ -165,11 +144,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         usuarioRepository.deleteAll();
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<Usuario> login(Usuario usuario) {
-//        return Optional.ofNullable(usuarioRepository.findByCedulaAndPasswordEncriptado(usuario.getCedula(), usuario.getPasswordEncriptado()));
-//    }
+
     @Override
     public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id) {
         Optional<List<Usuario>> result = Optional.ofNullable(usuarioRepository.findByDepartamentoId(id));
@@ -180,13 +155,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         return Optional.empty();
     }
 
-//    public Optional<Usuario> findJefeDepartamentoId(Long id){
-//         return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
-//    }
-//    @Override
-//    public Optional<Usuario> findJefeByDepartamento(Long id) {
-//        return Optional.ofNullable(usuarioRepository.findJefeByDepartamento(id));
-//    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<UsuarioDTO> findJefeByDepartamento(Long id) {
@@ -199,10 +168,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         }
     }
 
-//    @Override
-//    public Optional<Usuario> findByCedula(String cedula) {
-//        return usuarioRepository.findByCedula(cedula);
-//    }
+
     @Override
     @Transactional(readOnly = true)
 
@@ -210,23 +176,10 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
         return oneToDto(usuarioRepository.findByCedula(cedula));
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
-//        if (usuarioBuscado.isPresent()) {
-//            Usuario usuario = usuarioBuscado.get();
-//            List<GrantedAuthority> roles = new ArrayList<>();
-//            roles.add(new SimpleGrantedAuthority("ADMIN"));
-//            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
-//            return userDetails;
-//        } else {
-//            return null;
-//        }
-//
-//    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+      
         Optional<Usuario> usuarioBuscado = (usuarioRepository.findByCedula(username));
         if (usuarioBuscado.isPresent()) {
             Usuario usuario = usuarioBuscado.get();
@@ -248,13 +201,7 @@ public class UsuarioServiceImplementation implements UserDetailsService, IUsuari
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-//    private void encriptarPassword(Usuario usuario) {
-//        String password = usuario.getPasswordEncriptado();
-//        if (!password.isBlank()) {
-//            usuario.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
-//        }
-//    } // TODO: Piense donde se debe llamar esta función
+    
     private UsuarioDTO encriptarPassword(UsuarioDTO usuario) {
         String password = usuario.getPasswordEncriptado();
         if (!password.isBlank()) {

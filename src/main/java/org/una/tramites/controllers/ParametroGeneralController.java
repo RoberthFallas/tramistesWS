@@ -7,8 +7,6 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ParametroGeneralDTO;
-import org.una.tramites.entities.ParametroGeneral;
 import org.una.tramites.services.IParametroGeneralService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *

@@ -28,7 +28,8 @@ public class VariacionServiceImplementacion implements IVariacionService {
     private IVariacionRepository variacionRepository;
     @Autowired
     private ITipoTramiteRepository tipoTramiteRepo;
-private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
+
+    private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
         if (list != null) {
             List<VariacionDTO> notaDTO = MapperUtils.DtoListFromEntityList(list, VariacionDTO.class);
             return Optional.ofNullable(notaDTO);
@@ -47,12 +48,13 @@ private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
 
     private Optional<VariacionDTO> oneToDto(Optional<Variacion> one) {
         if (one.isPresent()) {
-          VariacionDTO notaDTO = MapperUtils.DtoFromEntity(one.get(), VariacionDTO.class);
+            VariacionDTO notaDTO = MapperUtils.DtoFromEntity(one.get(), VariacionDTO.class);
             return Optional.ofNullable(notaDTO);
         } else {
             return null;
-        }}
-    
+        }
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<VariacionDTO>> findAll() {
@@ -86,13 +88,13 @@ private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
     @Transactional
     public Optional<VariacionDTO> update(VariacionDTO variacionDTO, Long id) {
         if (variacionRepository.findById(id).isPresent()) {
-             Variacion variacion=MapperUtils.EntityFromDto(variacionDTO,Variacion.class);
-           variacion=variacionRepository.save(variacion);
-           return Optional.ofNullable(MapperUtils.DtoFromEntity(variacion,VariacionDTO.class));
+            Variacion variacion = MapperUtils.EntityFromDto(variacionDTO, Variacion.class);
+            variacion = variacionRepository.save(variacion);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(variacion, VariacionDTO.class));
         } else {
             return null;
         }
-      
+
     }
 
     @Override
@@ -115,7 +117,7 @@ private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
     @Override
     @Transactional(readOnly = true)
     public Optional<List<VariacionDTO>> findByDescripcion(String descripcion) {
-    return  findList(variacionRepository.findByDescripcion(descripcion));
+        return findList(variacionRepository.findByDescripcion(descripcion));
     }
 
 }

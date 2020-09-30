@@ -3,7 +3,6 @@ package org.una.tramites.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.una.tramites.entities.Permiso;
 import org.una.tramites.entities.Requisito;
 import org.una.tramites.repositories.IRequisitoRepository;
 
@@ -12,20 +11,21 @@ import java.util.List;
 import java.util.Optional;
 import org.una.tramites.dto.RequisitoDTO;
 import org.una.tramites.utils.MapperUtils;
+
 @Service
-public class RequisitoServiceImplementation implements IRequisitoService{
+public class RequisitoServiceImplementation implements IRequisitoService {
 
     @Autowired
     private IRequisitoRepository requisitoRepository;
+
     private Optional<List<RequisitoDTO>> findList(List<Requisito> list) {
         if (list != null) {
-            List<RequisitoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(list,RequisitoDTO.class);
+            List<RequisitoDTO> usuariosDTO = MapperUtils.DtoListFromEntityList(list, RequisitoDTO.class);
             return Optional.ofNullable(usuariosDTO);
         } else {
             return null;
         }
     }
-
 
     private Optional<List<RequisitoDTO>> findList(Optional<List<Requisito>> list) {
         if (list.isPresent()) {
@@ -37,7 +37,7 @@ public class RequisitoServiceImplementation implements IRequisitoService{
 
     private Optional<RequisitoDTO> oneToDto(Optional<Requisito> one) {
         if (one.isPresent()) {
-          RequisitoDTO requisitoDTO= MapperUtils.DtoFromEntity(one.get(), RequisitoDTO.class);
+            RequisitoDTO requisitoDTO = MapperUtils.DtoFromEntity(one.get(), RequisitoDTO.class);
             return Optional.ofNullable(requisitoDTO);
         } else {
             return null;
@@ -60,13 +60,11 @@ public class RequisitoServiceImplementation implements IRequisitoService{
         return findList(requisitoRepository.findByFechaRegistroBetween(startDate, endDate));
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Optional<List<RequisitoDTO>> findAll() {
         return findList(requisitoRepository.findAll());
     }
-
 
     @Override
     public void delete(Long id) {

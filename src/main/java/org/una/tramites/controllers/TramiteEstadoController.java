@@ -49,7 +49,7 @@ public class TramiteEstadoController {
     @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
-          return new ResponseEntity(tramiteEstadoService.findAll(),HttpStatus.OK);
+            return new ResponseEntity(tramiteEstadoService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

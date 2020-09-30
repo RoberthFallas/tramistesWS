@@ -16,23 +16,6 @@ import org.una.tramites.entities.Cliente;
  */
 public interface IClienteServices {
 
-//    public Optional<List<Cliente>> findAll();
-//
-//    public Optional<Cliente> findById(Long id);
-//
-//    public Optional<List<Cliente>> findByCedulaAproximate(String cedula);
-//
-//    public Optional<List<Cliente>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
-//
-//    public Cliente create(Cliente cliente);
-//
-//    public Optional<Cliente> update(Cliente cliente, Long id);
-//
-//    public void delete(Long id);
-//
-//    public void deleteAll();
-//
-//    public Optional<Cliente> findByCedula(String cedula);
     public Optional<List<ClienteDTO>> findAll();
 
     public Optional<ClienteDTO> findById(Long id);

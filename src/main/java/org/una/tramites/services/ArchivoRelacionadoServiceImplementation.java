@@ -45,11 +45,6 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
         }
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<ArchivoRelacionado> findById(Long id) {
-//        return archivorelacionadoRepository.findById(id);
-//    }
     @Override
     @Transactional(readOnly = true)
     public Optional<ArchivoRelacionadoDTO> findById(Long id) {
@@ -72,21 +67,6 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
         return findList(archivorelacionadoRepository.findAll());
     }
 
-//    @Override
-//    public Optional<ArchivoRelacionado> findByTipo(boolean tipo) {
-//        return Optional.empty();
-//    }
-//
-//    @Override
-//    public Optional<ArchivoRelacionado> findByFechaRegistroBetween(Date startDate, Date endDate) {
-//        return Optional.empty();
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<ArchivoRelacionado>> findAll() {
-//        return Optional.ofNullable(archivorelacionadoRepository.findAll());
-//    }
     @Override
     public void delete(Long id) {
         archivorelacionadoRepository.deleteById(id);
@@ -97,12 +77,6 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
         archivorelacionadoRepository.deleteAll();
     }
 
-//    @Override
-//    @Transactional
-//    public ArchivoRelacionado create(ArchivoRelacionado archivoRelacionado) {
-//
-//        return archivorelacionadoRepository.save(archivoRelacionado);
-//    }
     @Override
     @Transactional
     public ArchivoRelacionadoDTO create(ArchivoRelacionadoDTO archivoRelacionadoDTO) {
@@ -110,17 +84,6 @@ public class ArchivoRelacionadoServiceImplementation implements IArchivoRelacion
         archivoRelacionado = archivorelacionadoRepository.save(archivoRelacionado);
         return MapperUtils.DtoFromEntity(archivoRelacionado, ArchivoRelacionadoDTO.class);
     }
-
-//    @Override
-//    @Transactional
-//    public Optional<ArchivoRelacionado> update(ArchivoRelacionado archivoRelacionado, Long id) {
-//
-//        if (archivorelacionadoRepository.findById(id).isPresent()) {
-//            return Optional.ofNullable(archivorelacionadoRepository.save(archivoRelacionado));
-//        } else {
-//            return null;
-//        }
-//    }
     @Override
     @Transactional
     public Optional<ArchivoRelacionadoDTO> update(ArchivoRelacionadoDTO archivoRelacionadoDTO, Long id) {

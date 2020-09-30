@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.dto.TramiteCambioEstadoDTO;
-import org.una.tramites.entities.Nota;
 import org.una.tramites.entities.TramiteCambioEstado;
 import org.una.tramites.repositories.ITramiteCambioEstadoRepository;
 import org.una.tramites.utils.MapperUtils;

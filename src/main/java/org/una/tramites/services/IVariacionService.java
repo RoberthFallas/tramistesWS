@@ -15,22 +15,6 @@ import org.una.tramites.entities.Variacion;
  * @author LordLalo
  */
 public interface IVariacionService {
-
-//    public Optional<List<Variacion>> findAll();
-//
-//    public Optional<Variacion> findById(Long id);
-//
-//    public Optional<VariacionDTO> create(VariacionDTO variacion);
-//
-//    public Optional<Variacion> update(Variacion variacion, Long id);
-//
-//    public void delete(Long id);
-//
-//    public void deleteAll();
-//
-//    public Optional<List<Variacion>> findByGrupo(boolean grupo);
-//
-//    public Optional<List<Variacion>> findByDescripcion(String descripcion);
    public Optional<List<VariacionDTO>> findAll();
 
     public Optional<VariacionDTO> findById(Long id);

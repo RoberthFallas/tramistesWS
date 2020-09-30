@@ -32,7 +32,6 @@ import org.una.tramites.services.IAutenticacionService;
 public class AutenticacionController {
 
     @Autowired
-    // private IUsuarioService usuarioService;
     private IAutenticacionService autenticacionService;
 
     @PostMapping("/login")
@@ -45,13 +44,11 @@ public class AutenticacionController {
         }
         try {
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-            //  String token = usuarioService.login(authenticationRequest);
             AuthenticationResponse token = autenticacionService.login(authenticationRequest);
             if (token != null) {
                 authenticationResponse = token;
 
-//                authenticationResponse.setUsuario(token.getUsuario());
-//                authenticationResponse.setPermisos(token.getPermisos());
+
                 return new ResponseEntity(authenticationResponse, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);

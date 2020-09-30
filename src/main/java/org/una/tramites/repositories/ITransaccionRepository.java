@@ -18,11 +18,11 @@ import org.una.tramites.entities.Transaccion;
  */
 public interface ITransaccionRepository extends JpaRepository<Transaccion, Long> {
 
-    Optional<List<Transaccion>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);
-
-    Optional<List<Transaccion>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate);
-
-    Optional<List<Transaccion>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
-
-    Optional<List<Transaccion>> findByFechaRegistroBetween(Date startDate, Date endDate); 
+//    Optional<List<Transaccion>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);
+//
+//    Optional<List<Transaccion>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate);
+//
+//    Optional<List<Transaccion>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
+//
+//    Optional<List<Transaccion>> findByFechaRegistroBetween(Date startDate, Date endDate); 
 }

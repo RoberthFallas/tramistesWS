@@ -7,11 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.una.tramites.dto.NotaDTO;
-import org.una.tramites.entities.Nota;
 import org.una.tramites.services.INotaService;
-import org.una.tramites.utils.MapperUtils;
-
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
