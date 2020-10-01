@@ -5,11 +5,10 @@
  */
 package org.una.tramites.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.una.tramites.entities.Cliente;
+
+import java.util.List;
 
 /**
  *
@@ -23,5 +22,10 @@ public class TramiteRegistradoDTO {
 
     private Long id;
     private String tramiteTipo;
-    private Cliente cliente;
+
+    private ClienteDTO cliente;
+
+    // public void asociarCliente(ClienteDTO cliente){
+      //  this.cliente = cliente;
+   // }
 }
