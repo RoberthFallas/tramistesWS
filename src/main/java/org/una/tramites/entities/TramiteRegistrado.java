@@ -31,14 +31,19 @@ public class TramiteRegistrado implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tramites_tipos")
-    private String tramiteTipo;
-     @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "tramites_tipos_id")
+    private TramiteTipo tramiteTipo;
+
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado", fetch = FetchType.LAZY)
     private List<TramiteCambioEstado> tramiteCambioEstados = new ArrayList<>();
 
-//    private static final long serialVersionUID = 1L;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tramiteRegistrado", fetch = FetchType.LAZY)
+    private List<Nota> notas = new ArrayList<>();
+
+
 }

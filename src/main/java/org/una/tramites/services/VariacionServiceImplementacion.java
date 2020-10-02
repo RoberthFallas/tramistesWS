@@ -72,7 +72,7 @@ private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
         if (opt.isPresent()) {
             TramiteTipo entityTT = opt.get();
             Variacion toSave = MapperUtils.EntityFromDto(variacion, Variacion.class);
-            toSave.setTramite_tipos(entityTT);
+            toSave.setTramiteTipo(entityTT);
             toSave = variacionRepository.save(toSave);
             VariacionDTO variacionDTO = MapperUtils.DtoFromEntity(toSave, VariacionDTO.class);
             variacionDTO.adjuntarTipoTramite(variacion.getTramite_tipo());

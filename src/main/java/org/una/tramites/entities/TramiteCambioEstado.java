@@ -54,7 +54,8 @@ public class TramiteCambioEstado implements Serializable {
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
 }

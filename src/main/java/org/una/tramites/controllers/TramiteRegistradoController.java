@@ -24,7 +24,8 @@ public class TramiteRegistradoController {
 
     @Autowired
     private ITramiteRegistradoService tramiteRegistradoService;
-
+    
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los tramites registrados", response = TramiteRegistradoDTO.class, responseContainer = "List", tags = "Tramites Registrados")
     public @ResponseBody
