@@ -15,12 +15,12 @@ import org.una.tramites.entities.Nota;
  *
  * @author LordLalo
  */
-public interface INotaRepository extends JpaRepository<Nota, Long>{
+public interface INotaRepository extends JpaRepository<Nota, Long> {
 
-   public Optional<Nota> findById(Long id);
+    public Optional<Nota> findById(Long id);
 
-   public List<Nota> findByTipo(boolean tipo);
+    public List<Nota> findByTipo(boolean tipo);
 
-   public List<Nota> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public List<Nota> findByFechaRegistroBetween(Date startDate, Date endDate);
 
 }

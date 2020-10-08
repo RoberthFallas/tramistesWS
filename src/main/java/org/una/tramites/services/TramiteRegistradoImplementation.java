@@ -47,7 +47,6 @@ public class TramiteRegistradoImplementation implements  ITramiteRegistradoServi
  @Transactional(readOnly = true)
     public Optional<List<TramiteRegistradoDTO>> findAll() {
         return  findList(tramitesRegistradosRepository.findAll());
-    //    return Optional.ofNullable(tramitesRegistradosRepository.findAll());
     }
 
      @Override

@@ -34,7 +34,6 @@ public class TipoTramiteController {
     @Autowired
     private ITipoTramiteService tipoTramiteService;
 
-
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/create")
     @ResponseBody

@@ -7,7 +7,6 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TramiteCambioEstadoDTO;
-import org.una.tramites.entities.TramiteCambioEstado;
 import org.una.tramites.services.ITramiteCambioEstadoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -46,7 +43,7 @@ public class TramiteCambioEstadoController {
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-           return new ResponseEntity(tramiteCambioEstadoService.findAll(),HttpStatus.OK);
+            return new ResponseEntity(tramiteCambioEstadoService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -57,7 +54,7 @@ public class TramiteCambioEstadoController {
     @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_CONSULTAR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-return new ResponseEntity(tramiteCambioEstadoService.findById(id),HttpStatus.OK);
+            return new ResponseEntity(tramiteCambioEstadoService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -66,7 +63,7 @@ return new ResponseEntity(tramiteCambioEstadoService.findById(id),HttpStatus.OK)
     @PutMapping("/{id}")
     @ResponseBody
     @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_MODIFICAR')")
-  public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteCambioEstadoDTO tramiteCambioEstadoDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteCambioEstadoDTO tramiteCambioEstadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
                 Optional<TramiteCambioEstadoDTO> tramiteUpdated = tramiteCambioEstadoService.update(tramiteCambioEstadoDTO, id);
@@ -83,10 +80,46 @@ return new ResponseEntity(tramiteCambioEstadoService.findById(id),HttpStatus.OK)
         }
     }
 
+    @PutMapping("/modificarEstado/{idTramite}/{idTramiteEstado}")
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_MODIFICAR_ESTADO')")
+    @ResponseBody
+    public ResponseEntity<?> modificarEstado(@PathVariable(value = "idTramite") Long idTramite, @PathVariable(value = "idTramiteEstado") Long idTramiteEstado) {
+
+        try {
+            Optional<TramiteCambioEstadoDTO> tOptional = tramiteCambioEstadoService.modificarEstado(idTramite, idTramiteEstado);
+            if (tOptional.isPresent()) {
+                return new ResponseEntity(tOptional, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PutMapping("/actulizarTramiteNuevo/{idTramite}/{idTramiteEstado}")
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_MODIFICAR_ESTADO')")
+    @ResponseBody
+    public ResponseEntity<?> actulizarTramiteNuevo(@PathVariable(value = "idTramite") Long idTramite, @PathVariable(value = "idTramiteEstado") Long idTramiteEstado) {
+
+        try {
+            Optional<TramiteCambioEstadoDTO> tOptional = tramiteCambioEstadoService.actualizarTramiteNuevo(idTramite, idTramiteEstado);
+            if (tOptional.isPresent()) {
+                return new ResponseEntity(tOptional, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_ELIMINAR')")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-     try {
+        try {
             tramiteCambioEstadoService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +128,7 @@ return new ResponseEntity(tramiteCambioEstadoService.findById(id),HttpStatus.OK)
     }
 
     @DeleteMapping("/")
-    @PreAuthorize("hasAuthority(' TRAMITE_CAMBIO_ESTADO_ELIMINAR_TODO')")
+    @PreAuthorize("hasAuthority('TRAMITE_CAMBIO_ESTADO_ELIMINAR_TODO')")
     public ResponseEntity<?> deleteAll() {
         try {
             tramiteCambioEstadoService.deleteAll();

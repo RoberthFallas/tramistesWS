@@ -10,17 +10,9 @@ import org.una.tramites.entities.Requisito;
  *
  * @author LordLalo
  */
-
 public interface IRequisitoService {
 
-//    public Optional<List<Requisito>> findAll();
-//
-//    public Optional<Requisito> findById(Long id);
-//
-//    public Optional<Requisito> findByDescripcion(String descripcion);
-//
-//    public Optional<Requisito> findByFechaRegistroBetween(Date startDate, Date endDate);
-     public Optional<List<RequisitoDTO>> findAll();
+    public Optional<List<RequisitoDTO>> findAll();
 
     public Optional<RequisitoDTO> findById(Long id);
 

@@ -16,13 +16,6 @@ import org.una.tramites.entities.ParametroGeneral;
  */
 public interface IParametroGeneralService {
 
-//    public Optional<List<ParametroGeneral>> findAll();
-//
-//    public Optional<ParametroGeneral> findById(Long id);
-//
-//    public ParametroGeneral create(ParametroGeneral parametroGeneral);
-//
-//    public Optional<ParametroGeneral> update(ParametroGeneral parametroGeneral, Long id);
     public Optional<List<ParametroGeneralDTO>> findAll();
 
     public Optional<ParametroGeneralDTO> findById(Long id);
