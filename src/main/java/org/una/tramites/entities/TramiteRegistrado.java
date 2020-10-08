@@ -7,6 +7,7 @@ package org.una.tramites.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -35,6 +36,8 @@ public class TramiteRegistrado implements Serializable {
     @JoinColumn(name = "tramites_tipos_id")
     private TramiteTipo tramiteTipo;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRegistro;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

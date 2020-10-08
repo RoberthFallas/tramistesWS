@@ -9,6 +9,7 @@ import lombok.*;
 import org.una.tramites.entities.Cliente;
 import org.una.tramites.entities.TramiteTipo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class TramiteRegistradoDTO {
     private Long id;
     private TramiteTipoDTO tramiteTipo;
     private ClienteDTO cliente;
+    private Date fechaRegistro;
     private List<TramiteCambioEstadoDTO> tramiteCambioEstados;
     private List<NotaDTO> notas;
 
