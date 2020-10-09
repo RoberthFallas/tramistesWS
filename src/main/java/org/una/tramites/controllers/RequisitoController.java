@@ -7,12 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.una.tramites.dto.RequisitoDTO;
-import org.una.tramites.entities.Requisito;
 import org.una.tramites.services.IRequisitoService;
-import org.una.tramites.utils.MapperUtils;
-
-import java.util.List;
-import java.util.Optional;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController

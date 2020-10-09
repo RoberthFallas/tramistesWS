@@ -7,8 +7,6 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ParametroGeneralDTO;
-import org.una.tramites.entities.ParametroGeneral;
 import org.una.tramites.services.IParametroGeneralService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -68,7 +64,7 @@ public class ParametroGeneralController {
     @PostMapping("/")
     @ResponseBody
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_CREAR')")
-      public ResponseEntity<?> create(@Valid @RequestBody ParametroGeneralDTO parametroGeneralDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> create(@Valid @RequestBody ParametroGeneralDTO parametroGeneralDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
                 return new ResponseEntity(parametroGeneralService.create(parametroGeneralDTO), HttpStatus.CREATED);
@@ -79,7 +75,6 @@ public class ParametroGeneralController {
             return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('PARAMETRO_GENERAL_ELIMINAR')")

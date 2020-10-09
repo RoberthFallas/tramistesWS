@@ -44,8 +44,8 @@ public class TramiteEstadoServiceImplementation implements ITramiteEstadoService
 
     private Optional<TramiteEstadoDTO> oneToDto(Optional<TramiteEstado> one) {
         if (one.isPresent()) {
-            TramiteEstadoDTO requisitoDTO = MapperUtils.DtoFromEntity(one.get(), TramiteEstadoDTO.class);
-            return Optional.ofNullable(requisitoDTO);
+            TramiteEstadoDTO tramiteEstadoDTO = MapperUtils.DtoFromEntity(one.get(), TramiteEstadoDTO.class);
+            return Optional.ofNullable(tramiteEstadoDTO);
         } else {
             return null;
         }
@@ -92,6 +92,22 @@ public class TramiteEstadoServiceImplementation implements ITramiteEstadoService
     @Override
     public void deleteAll() {
         tramiteEstadoRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<TramiteEstadoDTO> modificarEstado(String cambiarEstado, Long id) {
+      if(tramiteEstadoRepository.findById(id).isPresent())
+      {
+         Optional<TramiteEstado> tramiteActual = tramiteEstadoRepository.findById(id);
+          tramiteActual.get().setEstadosSucesores(cambiarEstado);
+          TramiteEstado tra;
+          tra = tramiteEstadoRepository.save((TramiteEstado)tramiteActual.get());
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(tra, TramiteEstadoDTO.class));
+          
+      }else
+      {
+          return null;
+    }
     }
 
 }

@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.PermisoDTO;
-import org.una.tramites.entities.Permiso;
 import org.una.tramites.services.IPermisoService;
-import org.una.tramites.utils.MapperUtils;
 
 @RestController
 @RequestMapping("/permiso")
@@ -80,6 +78,7 @@ public class PermisoController {
             return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
     }
+
     @PutMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {

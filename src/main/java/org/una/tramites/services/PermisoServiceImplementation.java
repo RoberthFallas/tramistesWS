@@ -52,23 +52,14 @@ public class PermisoServiceImplementation implements IPermisoService {
         }
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<Permiso> findById(Long id) {
-//        return permisoRepository.findById(id);
-//    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<PermisoDTO> findById(Long id) {
         return oneToDto(permisoRepository.findById(id));
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<Permiso>> findByEstado(boolean estado) {
-//        return Optional.ofNullable(permisoRepository.findByEstado(estado));
-//
-//    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoDTO>> findByEstado(boolean estado) {
@@ -76,11 +67,6 @@ public class PermisoServiceImplementation implements IPermisoService {
 
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-//        return Optional.ofNullable(permisoRepository.findByFechaRegistroBetween(startDate, endDate));
-//    }
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
@@ -93,8 +79,7 @@ public class PermisoServiceImplementation implements IPermisoService {
         Permiso permiso = MapperUtils.EntityFromDto(permisoDTO, Permiso.class);
         permiso = permisoRepository.save(permiso);
         return MapperUtils.DtoFromEntity(permiso, PermisoDTO.class);
-        // return permisoRepository.save(permiso);
-        //   return Optional.ofNullable(permisoRepository.save(permiso));
+
     }
 
     @Override
@@ -130,7 +115,6 @@ public class PermisoServiceImplementation implements IPermisoService {
     @Transactional(readOnly = true)
     public Optional<PermisoDTO> findByCodigo(String codigoPermiso) {
         return oneToDto(permisoRepository.findByCodigo(codigoPermiso));
-//      return Optional.ofNullable(permisoRepository.findByCodigo(codigoPermiso));
     }
 
 }

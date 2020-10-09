@@ -8,13 +8,6 @@ import java.util.Optional;
 import org.una.tramites.dto.TramiteRegistradoDTO;
 
 public interface ITramiteRegistradoService {
-//    public Optional<List<TramiteRegistrado>> findAll();
-//
-//    public Optional<TramiteRegistrado> findById(Long id);
-//
-//    public TramiteRegistrado create(TramiteRegistrado tramitesRegistrados);
-//
-//    public Optional<TramiteRegistrado> update(TramiteRegistrado tramitesRegistrados, Long id);
 
     public Optional<List<TramiteRegistradoDTO>> findAll();
 

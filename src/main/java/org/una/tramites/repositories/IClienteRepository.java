@@ -26,7 +26,5 @@ public interface IClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("select c from Cliente c where UPPER(c.nombreCompleto) like CONCAT('%', UPPER(:nombreCompleto), '%')")
     public Cliente findNombreCompletoWithLikeSQL(@Param("nombreCompleto") String nombreCompleto);
 
-//    @Query("select c from Cliente c where c.cedula = :cedula")
-//    public Cliente findByCedula(@Param("cedula") String cedula);
     public Cliente findByCedula(String cedula);
 }
