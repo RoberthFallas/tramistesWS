@@ -2,7 +2,6 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.DepartamentoDTO;
 import org.una.tramites.dto.UsuarioDTO;
-import org.una.tramites.entities.Departamento;
 import org.una.tramites.services.IDepartamentoService;
-import org.una.tramites.utils.MapperUtils;
 
 @RestController
 @RequestMapping("/departamentos")
@@ -96,15 +93,7 @@ public class DepartamentoController {
         }
     }
 
-//    @GetMapping("/buscar/{nombre}")
-//     @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_DESCRIPCION')")
-//    public ResponseEntity<?> findByDescripcion(@PathVariable(value = "nombre") String nombre) {
-//        try {
-//            return new ResponseEntity(departamentoService.f)
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+
     @PutMapping("/{id}")
     @ResponseBody
     @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")

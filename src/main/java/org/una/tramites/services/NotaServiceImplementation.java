@@ -64,9 +64,9 @@ public class NotaServiceImplementation implements INotaService {
     @Override
     @Transactional
     public NotaDTO create(NotaDTO notaDTO) {
-    Nota nota=MapperUtils.EntityFromDto(notaDTO,Nota.class);
-    nota=notaRepository.save(nota);
-    return  MapperUtils.DtoFromEntity(nota,NotaDTO.class);
+        Nota nota = MapperUtils.EntityFromDto(notaDTO, Nota.class);
+        nota = notaRepository.save(nota);
+        return MapperUtils.DtoFromEntity(nota, NotaDTO.class);
     }
 
 //    @Override
@@ -84,13 +84,14 @@ public class NotaServiceImplementation implements INotaService {
     public Optional<NotaDTO> update(NotaDTO notaDTO, Long id) {
 
         if (notaRepository.findById(id).isPresent()) {
-           Nota nota=MapperUtils.EntityFromDto(notaDTO,Nota.class);
-           nota=notaRepository.save(nota);
-           return Optional.ofNullable(MapperUtils.DtoFromEntity(nota,NotaDTO.class));
+            Nota nota = MapperUtils.EntityFromDto(notaDTO, Nota.class);
+            nota = notaRepository.save(nota);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(nota, NotaDTO.class));
         } else {
             return null;
         }
     }
+
     @Override
     public Optional<List<NotaDTO>> findByTipo(boolean tipo) {
         return findList(notaRepository.findByTipo(tipo));

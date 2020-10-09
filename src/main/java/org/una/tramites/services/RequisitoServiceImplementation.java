@@ -3,7 +3,6 @@ package org.una.tramites.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.una.tramites.entities.Permiso;
 import org.una.tramites.entities.Requisito;
 import org.una.tramites.repositories.IRequisitoRepository;
 

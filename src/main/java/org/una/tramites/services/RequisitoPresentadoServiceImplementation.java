@@ -5,12 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.entities.RequisitoPresentado;
 import org.una.tramites.repositories.IRequisitoPresentadoRepository;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.tramites.dto.RequisitoPresentadoDTO;
-import org.una.tramites.entities.Requisito;
 import org.una.tramites.utils.MapperUtils;
 
 @Service
@@ -45,30 +43,16 @@ public class RequisitoPresentadoServiceImplementation implements IRequisitoPrese
         }
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<RequisitoPresentado> findById(Long id) {
-//        return requisitopresentadoRepository.findById(id);
-//    }
     @Override
     @Transactional(readOnly = true)
     public Optional<RequisitoPresentadoDTO> findById(Long id) {
         return oneToDto(requisitopresentadoRepository.findById(id));
     }
 
-//    @Override
-//    public Optional<RequisitoPresentado> findByFechaRegistroBetween(Date startDate, Date endDate) {
-//        return Optional.empty();
-//    }
     @Override
     public Optional<List<RequisitoPresentadoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
         return findList(requisitopresentadoRepository.findByFechaRegistroBetween(startDate, endDate));
     }
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<RequisitoPresentado>> findAll() {
-//        return Optional.ofNullable(requisitopresentadoRepository.findAll());
-//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -86,11 +70,11 @@ public class RequisitoPresentadoServiceImplementation implements IRequisitoPrese
         requisitopresentadoRepository.deleteAll();
     }
 
-  @Override
+    @Override
     @Transactional
     public RequisitoPresentadoDTO create(RequisitoPresentadoDTO requisitoPresentadoDTO) {
-        RequisitoPresentado requisitoPresentado=MapperUtils.DtoFromEntity(requisitoPresentadoDTO,RequisitoPresentado.class);
-        requisitoPresentado =requisitopresentadoRepository.save(requisitoPresentado);
+        RequisitoPresentado requisitoPresentado = MapperUtils.DtoFromEntity(requisitoPresentadoDTO, RequisitoPresentado.class);
+        requisitoPresentado = requisitopresentadoRepository.save(requisitoPresentado);
         return MapperUtils.DtoFromEntity(requisitoPresentado, RequisitoPresentadoDTO.class);
     }
 
@@ -100,7 +84,7 @@ public class RequisitoPresentadoServiceImplementation implements IRequisitoPrese
         if (requisitopresentadoRepository.findById(id).isPresent()) {
             RequisitoPresentado requisitoPresentado = MapperUtils.EntityFromDto(requisitoPresentadoDTO, RequisitoPresentado.class);
             requisitoPresentado = requisitopresentadoRepository.save(requisitoPresentado);
-            return Optional.ofNullable(MapperUtils.DtoFromEntity(requisitoPresentado,RequisitoPresentadoDTO.class));
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(requisitoPresentado, RequisitoPresentadoDTO.class));
         } else {
             return null;
         }

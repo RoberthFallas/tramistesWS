@@ -58,11 +58,7 @@ public class PermisoOtorgadoImplementation implements IPermisoOtorgadoService {
         return oneToDto(permisoOtorgadoRepository.findById(usuarioId));
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<List<PermisoOtorgado>> findByUsuarioId(Long usuarioId) {
-//        return Optional.ofNullable(permisoOtorgadoRepository.findByUsuarioId(usuarioId));
-//    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgadoDTO>> findByUsuarioId(Long usuarioId) {

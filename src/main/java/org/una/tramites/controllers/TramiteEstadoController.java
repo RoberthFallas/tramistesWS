@@ -7,7 +7,6 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TramiteEstadoDTO;
-import org.una.tramites.dto.TramiteTipoDTO;
-import org.una.tramites.entities.TramiteEstado;
 import org.una.tramites.services.ITramiteEstadoService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -49,7 +45,7 @@ public class TramiteEstadoController {
     @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CONSULTAR_TODO')")
     ResponseEntity<?> findAll() {
         try {
-          return new ResponseEntity(tramiteEstadoService.findAll(),HttpStatus.OK);
+            return new ResponseEntity(tramiteEstadoService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -101,6 +97,24 @@ public class TramiteEstadoController {
         } else {
             return new ResponseEntity("MENSAJE_VERIFICAR_INFORMACION", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("/modificarEstado/{id}/{estado}")
+    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_MODIFICAR_ESTADO')")
+    @ResponseBody
+    public ResponseEntity<?> modificarEstado(@PathVariable(value = "id") Long id, @PathVariable(value = "estado") String estado) {
+
+        try {
+            Optional<TramiteEstadoDTO> usuarioUpdated = tramiteEstadoService.modificarEstado(estado, id);
+            if (usuarioUpdated.isPresent()) {
+                return new ResponseEntity(usuarioUpdated, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @DeleteMapping("/{id}")
