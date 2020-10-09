@@ -29,16 +29,42 @@ public class VariacionServiceImplementacion implements IVariacionService {
     @Autowired
     private ITipoTramiteRepository tipoTramiteRepo;
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Variacion>> findAll() {
-        return Optional.ofNullable(variacionRepository.findAll());
+    private Optional<List<VariacionDTO>> findList(List<Variacion> list) {
+        if (list != null) {
+            List<VariacionDTO> notaDTO = MapperUtils.DtoListFromEntityList(list, VariacionDTO.class);
+            return Optional.ofNullable(notaDTO);
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<List<VariacionDTO>> findList(Optional<List<Variacion>> list) {
+        if (list.isPresent()) {
+            return findList(list.get());
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<VariacionDTO> oneToDto(Optional<Variacion> one) {
+        if (one.isPresent()) {
+            VariacionDTO notaDTO = MapperUtils.DtoFromEntity(one.get(), VariacionDTO.class);
+            return Optional.ofNullable(notaDTO);
+        } else {
+            return null;
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Variacion> findById(Long id) {
-        return variacionRepository.findById(id);
+    public Optional<List<VariacionDTO>> findAll() {
+        return findList(variacionRepository.findAll());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<VariacionDTO> findById(Long id) {
+        return oneToDto(variacionRepository.findById(id));
     }
 
     @Override
@@ -47,8 +73,8 @@ public class VariacionServiceImplementacion implements IVariacionService {
         Optional<TramiteTipo> opt = tipoTramiteRepo.findById(variacion.getTramite_tipo().getId());
         if (opt.isPresent()) {
             TramiteTipo entityTT = opt.get();
-            Variacion toSave = MapperUtils.entityFromDto(variacion, Variacion.class);
-            toSave.setTramite_tipos(entityTT);
+            Variacion toSave = MapperUtils.EntityFromDto(variacion, Variacion.class);
+            toSave.setTramiteTipo(entityTT);
             toSave = variacionRepository.save(toSave);
             VariacionDTO variacionDTO = MapperUtils.DtoFromEntity(toSave, VariacionDTO.class);
             variacionDTO.adjuntarTipoTramite(variacion.getTramite_tipo());
@@ -60,11 +86,15 @@ public class VariacionServiceImplementacion implements IVariacionService {
 
     @Override
     @Transactional
-    public Optional<Variacion> update(Variacion variacion, Long id) {
+    public Optional<VariacionDTO> update(VariacionDTO variacionDTO, Long id) {
         if (variacionRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(variacionRepository.save(variacion));
+            Variacion variacion = MapperUtils.EntityFromDto(variacionDTO, Variacion.class);
+            variacion = variacionRepository.save(variacion);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(variacion, VariacionDTO.class));
+        } else {
+            return null;
         }
-        return null;
+
     }
 
     @Override
@@ -80,14 +110,14 @@ public class VariacionServiceImplementacion implements IVariacionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Variacion>> findByGrupo(boolean grupo) {
-        return Optional.ofNullable(variacionRepository.findByGrupo(grupo));
+    public Optional<List<VariacionDTO>> findByGrupo(boolean grupo) {
+        return findList(variacionRepository.findByGrupo(grupo));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Variacion>> findByDescripcion(String descripcion) {
-        return Optional.ofNullable(variacionRepository.findByDescripcion(descripcion));
+    public Optional<List<VariacionDTO>> findByDescripcion(String descripcion) {
+        return findList(variacionRepository.findByDescripcion(descripcion));
     }
 
 }

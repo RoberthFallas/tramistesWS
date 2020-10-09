@@ -5,13 +5,16 @@
  */
 package org.una.tramites.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.una.tramites.entities.PermisoOtorgado;
 
 /**
  *
@@ -21,6 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class UsuarioDTO {
 
     private Long id;
@@ -30,8 +34,12 @@ public class UsuarioDTO {
     private Date fechaRegistro;
     private Date fechaModificacion;
     private boolean esJefe;
+    private String passwordEncriptado;
     @Setter(AccessLevel.NONE)
     private DepartamentoDTO departamento;
+    //@Setter(AccessLevel.NONE)
+    private List<PermisoOtorgadoDTO> permisosOtorgado;
+    
     
     public void asociarDepartamento(DepartamentoDTO depart){
         this.departamento = depart;

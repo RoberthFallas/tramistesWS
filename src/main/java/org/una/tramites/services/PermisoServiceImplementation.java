@@ -11,8 +11,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.entities.Permiso;
 import org.una.tramites.repositories.IPermisoRepository;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -24,37 +26,69 @@ public class PermisoServiceImplementation implements IPermisoService {
     @Autowired
     private IPermisoRepository permisoRepository;
 
+    private Optional<List<PermisoDTO>> findList(List<Permiso> list) {
+        if (list != null) {
+            List<PermisoDTO> permisoDTO = MapperUtils.DtoListFromEntityList(list, PermisoDTO.class);
+            return Optional.ofNullable(permisoDTO);
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<List<PermisoDTO>> findList(Optional<List<Permiso>> list) {
+        if (list.isPresent()) {
+            return findList(list.get());
+        } else {
+            return null;
+        }
+    }
+
+    private Optional<PermisoDTO> oneToDto(Optional<Permiso> one) {
+        if (one.isPresent()) {
+            PermisoDTO permisoDTO = MapperUtils.DtoFromEntity(one.get(), PermisoDTO.class);
+            return Optional.ofNullable(permisoDTO);
+        } else {
+            return null;
+        }
+    }
+
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<Permiso> findById(Long id) {
-        return permisoRepository.findById(id);
+    public Optional<PermisoDTO> findById(Long id) {
+        return oneToDto(permisoRepository.findById(id));
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<PermisoDTO>> findByEstado(boolean estado) {
+        return findList(permisoRepository.findByEstado(estado));
+
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Permiso>> findByEstado(boolean estado) {
-        return Optional.ofNullable(permisoRepository.findByEstado(estado));
-
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        return Optional.ofNullable(permisoRepository.findByFechaRegistroBetween(startDate, endDate));
+    public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+        return findList(permisoRepository.findByFechaRegistroBetween(startDate, endDate));
     }
 
     @Override
     @Transactional
-    public Permiso create(Permiso permiso) {
-        return permisoRepository.save(permiso);
-   //   return Optional.ofNullable(permisoRepository.save(permiso));
+    public PermisoDTO create(PermisoDTO permisoDTO) {
+        Permiso permiso = MapperUtils.EntityFromDto(permisoDTO, Permiso.class);
+        permiso = permisoRepository.save(permiso);
+        return MapperUtils.DtoFromEntity(permiso, PermisoDTO.class);
+
     }
 
     @Override
     @Transactional
-    public Optional<Permiso> update(Permiso permiso, Long id) {
-        if (permisoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(permisoRepository.save(permiso));
+    public Optional<PermisoDTO> update(PermisoDTO permisoDTO, Long id) {
+       if (permisoRepository.findById(id).isPresent()) {
+            Permiso permiso = MapperUtils.EntityFromDto(permisoDTO, Permiso.class);
+            permiso = permisoRepository.save(permiso);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(permiso, PermisoDTO.class));
         } else {
             return null;
         }
@@ -79,8 +113,8 @@ public class PermisoServiceImplementation implements IPermisoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Permiso> findByCodigo(String codigoPermiso) {
-        return Optional.ofNullable(permisoRepository.findByCodigo(codigoPermiso));
+    public Optional<PermisoDTO> findByCodigo(String codigoPermiso) {
+        return oneToDto(permisoRepository.findByCodigo(codigoPermiso));
     }
 
 }

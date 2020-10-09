@@ -8,6 +8,7 @@ package org.una.tramites.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.entities.Permiso;
 
 /**
@@ -15,23 +16,23 @@ import org.una.tramites.entities.Permiso;
  * @author LordLalo
  */
 public interface IPermisoService {
-    
-    public Optional<Permiso> findById(Long id);
 
-    public Optional<List<Permiso>> findByEstado(boolean estado);
+    public Optional<PermisoDTO> findById(Long id);
 
-    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<PermisoDTO>> findByEstado(boolean estado);
 
-    public Permiso create(Permiso permiso);
+    public Optional<List<PermisoDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public Optional<Permiso> update(Permiso permiso, Long id);
+    public PermisoDTO create(PermisoDTO permiso);
+
+    public Optional<PermisoDTO> update(PermisoDTO permisoDTO, Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
-    
-    public Long countByEstado(boolean estado); 
-    
-    public Optional<Permiso> findByCodigo(String codigoPermiso);
+
+    public Long countByEstado(boolean estado);
+
+    public Optional<PermisoDTO> findByCodigo(String codigoPermiso);
 
 }

@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 
 /**
@@ -36,6 +37,6 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     public List<Usuario> findByDepartamentoId(Long id);                          //Optional????????????????
 
     @Query("SELECT u FROM Usuario u LEFT JOIN u.departamento d WHERE u.esJefe = 1 AND d.id=:id")
-    public Usuario findJefeByDepartamento(Long id);
+    public Optional<Usuario> findJefeByDepartamento(Long id);
 
 }
