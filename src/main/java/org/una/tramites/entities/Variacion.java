@@ -54,7 +54,7 @@ public class Variacion implements Serializable{
     private boolean estado;
    @ManyToOne
     @JoinColumn(name = "tramites_tipos_id")
-    private TramiteTipo tramite_tipos;
+    private TramiteTipo tramiteTipo;
    
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "variaciones", fetch = FetchType.LAZY)
     private List<Requisito> requisitos = new ArrayList<>();

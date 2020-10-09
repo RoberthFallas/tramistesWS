@@ -34,6 +34,8 @@ public class TramiteTipoDTO {
     private DepartamentoDTO departamento;
     @Setter(AccessLevel.NONE)
     private List<VariacionDTO> variacionDTOs = new ArrayList<>();
+    @Setter(AccessLevel.NONE)
+    private List<TramiteRegistradoDTO> tramiteRegistradoDTOS = new ArrayList<>();
     
     
     public void adjuntarDepartamento(DepartamentoDTO depa){

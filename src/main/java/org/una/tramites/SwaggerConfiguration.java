@@ -24,8 +24,6 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-
 /**
  *
  * @author Roberth
@@ -34,7 +32,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-  
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -59,10 +56,11 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .tags(new Tag("Seguridad", "Metodos de Seguridad"),
                         new Tag("Usuarios", "Entidad de Usuarios"),
-                        new Tag("Autenticacion","Seguridad al ingresar")
+                        new Tag("Autenticacion", "Seguridad al ingresar")
                 );
 
     }
+
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Trámites Municipales",
@@ -72,6 +70,5 @@ public class SwaggerConfiguration {
                 new Contact("UNA Sede Región Brunca", "https://srb.una.ac.cr/index.php/es/", "decanatosrb@una.cr"),
                 "Apache-2.0", "http://www.apache.org/licenses/LICENSE-2.0", Collections.emptyList());
     }
-    
 
 }

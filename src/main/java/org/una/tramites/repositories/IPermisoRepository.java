@@ -7,6 +7,7 @@ package org.una.tramites.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.una.tramites.entities.Permiso;
@@ -24,6 +25,6 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Long> {
     public Long countByEstado(boolean estado);
 
     @Query("select p from Permiso p where p.codigo = :codigo")
-    public Permiso findByCodigo(String codigo);
-    //public long countByX(type X);
+    public  Optional<Permiso> findByCodigo(String codigo);
+  
 }

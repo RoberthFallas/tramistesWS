@@ -19,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ParametroGeneralDto {
+public class ParametroGeneralDTO {
 
     private Long id;
     private String nombre;

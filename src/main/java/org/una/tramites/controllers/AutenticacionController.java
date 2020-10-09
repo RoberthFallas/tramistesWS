@@ -12,11 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.AuthenticationResponse;
 import org.una.tramites.dto.UsuarioDTO;
@@ -32,9 +28,9 @@ import org.una.tramites.services.IAutenticacionService;
 public class AutenticacionController {
 
     @Autowired
-    // private IUsuarioService usuarioService;
     private IAutenticacionService autenticacionService;
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("/login")
     @ResponseBody
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Autenticacion")
@@ -45,13 +41,10 @@ public class AutenticacionController {
         }
         try {
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-            //  String token = usuarioService.login(authenticationRequest);
             AuthenticationResponse token = autenticacionService.login(authenticationRequest);
             if (token != null) {
                 authenticationResponse = token;
 
-//                authenticationResponse.setUsuario(token.getUsuario());
-//                authenticationResponse.setPermisos(token.getPermisos());
                 return new ResponseEntity(authenticationResponse, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,7 +55,15 @@ public class TramiteCambioEstado implements Serializable {
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
+    
+    @PrePersist
+    public void prePersist() {
+      
+        fechaRegistro = new Date();
+     
+    }
 }

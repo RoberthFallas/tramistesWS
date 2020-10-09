@@ -23,26 +23,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dataInitializer")
 @Api(tags = {"DataInitializer"})
 public class DataInitializerController {
+
     @Autowired
-     private IDataInitializerService dataInitializerService;
-     @GetMapping("/{id}")
-    @ApiOperation(value = "Obtiene un permiso de acuerdo al id",tags ="DataInitializer")
+    private IDataInitializerService dataInitializerService;
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Obtiene un permiso de acuerdo al id", tags = "DataInitializer")
     public ResponseEntity<?> initDevelopData() {
-     try{
-       dataInitializerService.initDevelopData();
-       return  new ResponseEntity<>(HttpStatus.OK);
-     }catch(Exception e){
-         return  new ResponseEntity<>(e,HttpStatus.INTERNAL_SERVER_ERROR);
-     }
+        try {
+            dataInitializerService.initDevelopData();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-     @DeleteMapping("/")
-    @ApiOperation(value = "elimina todo",tags ="DataInitializer")
+
+    @DeleteMapping("/")
+    @ApiOperation(value = "elimina todo", tags = "DataInitializer")
     public ResponseEntity<?> deleteAllData() {
-     try{
-       dataInitializerService.deleteAllData();
-       return  new ResponseEntity<>(HttpStatus.OK);
-     }catch(Exception e){
-         return  new ResponseEntity<>(e,HttpStatus.INTERNAL_SERVER_ERROR);
-     }
+        try {
+            dataInitializerService.deleteAllData();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

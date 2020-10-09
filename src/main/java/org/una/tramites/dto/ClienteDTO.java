@@ -8,12 +8,8 @@ package org.una.tramites.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.*;
 
 /**
  *
@@ -23,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ClienteDTO {
+public class  ClienteDTO {
 
     private Long id;
     private String nombreCompleto;
@@ -33,7 +29,8 @@ public class ClienteDTO {
     private boolean estado;
     private Date fechaRegistro;
     private Date fechaModificacion;
-    private String passwordEncriptado;
+
+
     @Setter(AccessLevel.NONE)
     private List<TramiteRegistradoDTO> tramitesRegistrados = new ArrayList<>();
 }

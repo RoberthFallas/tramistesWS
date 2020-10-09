@@ -7,21 +7,23 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.TramiteEstado;
+import org.una.tramites.dto.TramiteEstadoDTO;
 
 /**
  *
  * @author LordLalo
  */
-
 public interface ITramiteEstadoService {
-    public Optional<TramiteEstado> findById(Long id);
 
-    public Optional<List<TramiteEstado>> findAll();
+    public Optional<TramiteEstadoDTO> findById(Long id);
 
-    public TramiteEstado create(TramiteEstado tramites);
+    public Optional<List<TramiteEstadoDTO>> findAll();
 
-    public Optional<TramiteEstado> update(TramiteEstado tramites, Long id);
+    public TramiteEstadoDTO create(TramiteEstadoDTO tramites);
+
+    public Optional<TramiteEstadoDTO> update(TramiteEstadoDTO tramites, Long id);
+
+    public Optional<TramiteEstadoDTO> modificarEstado(String cambiarEstado, Long id);
 
     public void delete(Long id);
 

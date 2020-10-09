@@ -35,7 +35,7 @@ public class TipoTramiteServiceImplementation implements ITipoTramiteService {
         Optional<Departamento> opt = depaRepo.findById(tipoTramite.getDepartamento().getId());
         if (opt.isPresent()) {
             Departamento entityDepa = opt.get();
-            TramiteTipo toSave = MapperUtils.entityFromDto(tipoTramite, TramiteTipo.class);
+            TramiteTipo toSave = MapperUtils.EntityFromDto(tipoTramite, TramiteTipo.class);
             toSave.setDepartamento(entityDepa);
             toSave = tipoTramRepo.save(toSave);
             TramiteTipoDTO tramDto = MapperUtils.DtoFromEntity(toSave, TramiteTipoDTO.class);
@@ -51,7 +51,7 @@ public class TipoTramiteServiceImplementation implements ITipoTramiteService {
     public Optional<TramiteTipoDTO> update(TramiteTipoDTO tipoTramite) {
         Optional<TramiteTipo> result = tipoTramRepo.findById(tipoTramite.getId());
         if (result.isPresent()) {
-            TramiteTipo entity = MapperUtils.entityFromDto(tipoTramite, TramiteTipo.class);
+            TramiteTipo entity = MapperUtils.EntityFromDto(tipoTramite, TramiteTipo.class);
             entity = tipoTramRepo.save(entity);
             TramiteTipoDTO tramDto = MapperUtils.DtoFromEntity(entity, TramiteTipoDTO.class);
             tramDto.adjuntarDepartamento(tipoTramite.getDepartamento());
